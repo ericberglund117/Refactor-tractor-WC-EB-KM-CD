@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import User from '../src/user';
-import data from '../data/users-data';
+// import users from '../data/users-data';
 
 describe('User', function() {
   let user;
