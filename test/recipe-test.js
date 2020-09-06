@@ -8,7 +8,55 @@ describe('Recipe', function() {
   let recipeInfo;
 
   beforeEach(function() {
-    recipeInfo = recipeData[0];
+    recipeInfo = [
+      {
+        "name": "Loaded Chocolate Chip Pudding Cookie Cups",
+        "id": 595736,
+        "image": "https://spoonacular.com/recipeImages/595736-556x370.jpg",
+        "ingredients": [
+          {
+            "name": "all purpose flour",
+            "id": 20081,
+            "quantity": {
+              "amount": 1.5,
+              "unit": "c"
+            }
+          },
+          {
+            "name": "baking soda",
+            "id": 18372,
+            "quantity": {
+              "amount": 0.5,
+              "unit": "tsp"
+            }
+          }
+        ]
+      },
+
+      {
+        "name": "Maple Dijon Apple Cider Grilled Pork Chops",
+        "id": 678353,
+        "image": "https://spoonacular.com/recipeImages/678353-556x370.jpg",
+        "ingredients": [
+          {
+            "name": "apple cider",
+            "id": 1009016,
+            "quantity": {
+              "amount": 1.5,
+              "unit": "cups"
+            }
+          },
+          {
+            "name": "apples",
+            "id": 9003,
+            "quantity": {
+              "amount": 2,
+              "unit": ""
+            }
+          }
+        ]
+      }
+    ];
     recipe = new Recipe(recipeInfo);
   })
 
