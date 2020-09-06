@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 
 import Recipe from '../src/recipe';
-import data from '../data/recipe-data';
+// import data from '../data/recipe-data';
 
 describe('Recipe', function() {
   let recipe;
   let recipeInfo;
 
   beforeEach(function() {
-    recipeInfo = data.recipeData[0];
+    recipeInfo = recipeData[0];
     recipe = new Recipe(recipeInfo);
   })
 
