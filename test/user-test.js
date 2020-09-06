@@ -132,8 +132,21 @@ describe('User', function() {
     expect(user1.filterRecipes('italian')).to.deep.equal([recipe]);
   });
 
+  it('should return null if the type is undefined in the filterRecipes function', function() {
+    let recipe1 = {name: 'strawberry shortcake biscuit', type: undefined};
+    user1.saveRecipe(recipe1)
+    expect(user1.filterRecipes(undefined)).to.equal(null)
+  })
+
   it('should be able to search recipes by name', function() {
     user1.saveRecipe(recipe);
     expect(user1.searchForRecipe('Chicken Parm')).to.deep.equal([recipe]);
   });
+
+  it('should return null if the name is undefined in the searchForRecipe function', function() {
+    let recipe1 = {name: undefined, type: ['tasty']};
+    user1.saveRecipe(recipe1)
+    expect(user1.searchForRecipe(undefined)).to.equal(null)
+  })
+
 });

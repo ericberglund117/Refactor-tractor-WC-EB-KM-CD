@@ -21,12 +21,20 @@ class User {
   };
 
   filterRecipes(type) {
-    return this.favoriteRecipes.filter(recipe => recipe.type.includes(type));
+    if(type !== undefined) {
+     return this.favoriteRecipes.filter(recipe => recipe.type.includes(type));
+   } else {
+     return null
+   }
   };
 
   searchForRecipe(keyword) {
-    return this.favoriteRecipes.filter(recipe => recipe.name.includes(keyword) || recipe.ingredients.includes(keyword));
-  };
+    if(keyword !== undefined) {
+      return this.favoriteRecipes.filter(recipe => recipe.name.includes(keyword) || recipe.ingredients.includes(keyword));
+    } else {
+    return null
+    }
+  }
 };
 
 module.exports = User;
