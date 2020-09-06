@@ -122,6 +122,11 @@ describe('User', function() {
     expect(user1.recipesToCook[0].name).to.equal('Chicken Parm');
   });
 
+  it('should return the current recipesToCook array if the user decides to cook a recipe that is undefined', function() {
+    user1.decideToCook(undefined);
+    expect(user1.recipesToCook.length).to.equal(0);
+  });
+
   it('should be able to filter recipes by type', function() {
     user1.saveRecipe(recipe);
     expect(user1.filterRecipes('italian')).to.deep.equal([recipe]);

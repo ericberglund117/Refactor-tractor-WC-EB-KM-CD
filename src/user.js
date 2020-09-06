@@ -17,7 +17,7 @@ class User {
   };
 
   decideToCook(recipe) {
-    this.recipesToCook.push(recipe);
+    if(recipe !== undefined) this.recipesToCook.push(recipe);
   };
 
   filterRecipes(type) {
