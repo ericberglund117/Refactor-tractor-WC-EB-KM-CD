@@ -107,8 +107,8 @@ describe('User', function() {
   });
 
   it('should be able to filter recipes by type', function() {
-    user.saveRecipe(recipe);
-    expect(user.filterRecipes('italian')).to.deep.equal([recipe]);
+    user1.saveRecipe(recipe);
+    expect(user1.filterRecipes('italian')).to.deep.equal([recipe]);
   });
 
   it('should be able to search recipes by name', function() {
