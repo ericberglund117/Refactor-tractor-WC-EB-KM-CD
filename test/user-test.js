@@ -102,8 +102,8 @@ describe('User', function() {
   });
 
   it('should be able to decide to cook a recipe', function() {
-    user.decideToCook(recipe);
-    expect(user.recipesToCook[0].name).to.equal('Chicken Parm');
+    user1.decideToCook(recipe);
+    expect(user1.recipesToCook[0].name).to.equal('Chicken Parm');
   });
 
   it('should be able to filter recipes by type', function() {
