@@ -112,7 +112,7 @@ describe('User', function() {
   });
 
   it('should be able to search recipes by name', function() {
-    user.saveRecipe(recipe);
-    expect(user.searchForRecipe('Chicken Parm')).to.deep.equal([recipe]);
+    user1.saveRecipe(recipe);
+    expect(user1.searchForRecipe('Chicken Parm')).to.deep.equal([recipe]);
   });
 });
