@@ -97,8 +97,8 @@ describe('User', function() {
   });
 
   it('should be able to save a recipe to favoriteRecipes', function() {
-    user.saveRecipe(recipe);
-    expect(user.favoriteRecipes[0].name).to.equal('Chicken Parm');
+    user1.saveRecipe(recipe);
+    expect(user1.favoriteRecipes[0].name).to.equal('Chicken Parm');
   });
 
   it('should be able to decide to cook a recipe', function() {
