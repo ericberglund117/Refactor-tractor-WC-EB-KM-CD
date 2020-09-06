@@ -8,7 +8,10 @@ class User {
   };
 
   saveRecipe(recipe) {
-    this.favoriteRecipes.push(recipe);
+    if(recipe === undefined) {
+    } else {
+      this.favoriteRecipes.push(recipe);
+    }
   };
 
   removeRecipe(recipe) {

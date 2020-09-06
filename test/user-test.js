@@ -77,11 +77,11 @@ describe('User', function() {
   });
 
   it('should initialize with an id', function() {
-    expect(user1.id).to.eq(1);
+    expect(user1.id).to.equal(1);
   });
 
   it('should initialize with a name', function() {
-    expect(user1.name).to.eq('Saige O\'Kon');
+    expect(user1.name).to.equal('Saige O\'Kon');
   });
 
   it('should initialize with a pantry', function() {
@@ -94,7 +94,7 @@ describe('User', function() {
       "name": "Michael Scarn",
       "pantry": []
     };
-    expect(user3.pantry.length).to.eq(0)
+    expect(user3.pantry.length).to.equal(0)
   })
 
   it('should initialize with an empty favoriteRecipes array', function() {
@@ -109,6 +109,13 @@ describe('User', function() {
     user1.saveRecipe(recipe);
     expect(user1.favoriteRecipes[0].name).to.equal('Chicken Parm');
   });
+
+  it('should return an alert message if a recipe is undefined', function() {
+    user1.saveRecipe(undefined)
+    expect(user1.favoriteRecipes.length).to.equal(0)
+    user1.saveRecipe(recipe)
+    expect(user1.favoriteRecipes.length).to.equal(1)
+  })
 
   it('should be able to decide to cook a recipe', function() {
     user1.decideToCook(recipe);
