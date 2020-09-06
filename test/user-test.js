@@ -147,6 +147,5 @@ describe('User', function() {
     let recipe1 = {name: undefined, type: ['tasty']};
     user1.saveRecipe(recipe1)
     expect(user1.searchForRecipe(undefined)).to.equal(null)
-  })
-
+  });
 });

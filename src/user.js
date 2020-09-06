@@ -25,7 +25,7 @@ class User {
      return this.favoriteRecipes.filter(recipe => recipe.type.includes(type));
    } else {
      return null
-   }
+   };
   };
 
   searchForRecipe(keyword) {
@@ -33,8 +33,8 @@ class User {
       return this.favoriteRecipes.filter(recipe => recipe.name.includes(keyword) || recipe.ingredients.includes(keyword));
     } else {
     return null
-    }
-  }
+  };
+  };
 };
 
 module.exports = User;
