@@ -89,7 +89,7 @@ describe('User', function() {
   });
 
   it('should initialize with an empty favoriteRecipes array', function() {
-    expect(user.favoriteRecipes).to.deep.equal([]);
+    expect(user1.favoriteRecipes).to.deep.equal([]);
   });
 
   it('should initialize with an empty recipesToCook array', function() {
