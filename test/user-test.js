@@ -88,6 +88,15 @@ describe('User', function() {
     expect(user1.pantry[0].ingredient).to.eq(11477);
   });
 
+  it('should return 0 if there are no ingredients in the panty', function() {
+    let user3 = {
+      "id": 3,
+      "name": "Michael Scarn",
+      "pantry": []
+    };
+    expect(user3.pantry.length).to.eq(0)
+  })
+
   it('should initialize with an empty favoriteRecipes array', function() {
     expect(user1.favoriteRecipes).to.deep.equal([]);
   });
