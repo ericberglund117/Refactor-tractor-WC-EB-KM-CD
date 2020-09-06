@@ -1,4 +1,4 @@
-export class User {
+class User {
   constructor(user) {
     this.id = user.id;
     this.name = user.name;
@@ -26,4 +26,4 @@ export class User {
   }
 }
 
-// module.exports = User;
+module.exports = User;

@@ -4,7 +4,8 @@ import User from '../src/user';
 // import users from '../data/users-data';
 
 describe('User', function() {
-  let user;
+  let user1;
+  let user2;
   let userInfo;
   let recipe;
 
@@ -76,15 +77,15 @@ describe('User', function() {
   });
 
   it('should initialize with an id', function() {
-    expect(user.id).to.eq(1);
+    expect(user1.id).to.eq(1);
   });
 
   it('should initialize with a name', function() {
-    expect(user.name).to.eq('Saige O\'Kon');
+    expect(user1.name).to.eq('Saige O\'Kon');
   });
 
   it('should initialize with a pantry', function() {
-    expect(user.pantry[0].ingredient).to.eq(11477);
+    expect(user1.pantry[0].ingredient).to.eq(11477);
   });
 
   it('should initialize with an empty favoriteRecipes array', function() {
