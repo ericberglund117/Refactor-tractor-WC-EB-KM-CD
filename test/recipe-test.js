@@ -111,6 +111,6 @@ describe('Recipe', function() {
   });
 
   it('should calculate the total cost of all of the ingredients', function() {
-    expect(recipe.calculateIngredientsCost(ingredientsDataTest)).to.eq(726);
+    expect(recipe.calculateIngredientsCost(ingredientsDataTest)).to.equal(504);
   });
 });

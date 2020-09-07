@@ -11,31 +11,17 @@ class Recipe {
   };
 
   calculateIngredientsCost(ingredientsData) {
-    //   let match = this.ingredients.map(i => {
-    //     console.log(i)
-    //     ingredientsData.find(ingredient => ingredient.id === i.id);
-    // });
-    // console.log(match)
-    let sum = 0;
-    let match = this.ingredients.forEach(recipeIngredient => {
-      // Object.entries(recipeIngredient)
-      let anything = ingredientsData.find(ingredient => ingredient.id === recipeIngredient.id)
-      console.log(anything)
-      // ingredient.id === ingredientsData[index].id
+    let cost = this.ingredients.map(recipeIngredient => {
+      let recipeAmount = recipeIngredient.quantity.amount;
+      let match = ingredientsData.find(ingredient => ingredient.id === recipeIngredient.id)
+      return match.estimatedCostInCents * recipeAmount
     })
-    // console.log(match)
-
-    // let cost = this.ingredients.reduce((sum, currentIngredient) => {
-    //   // console.log(currentIngredient)
-    //     sum += ingredient.estimatedCostInCents
-    //   return sum;
-    // }, 0)
-
-    // console.log(cost)
+    let totalCost = cost.reduce((sum, ingredientCost) => {
+      sum += ingredientCost
+      return sum
+    }, 0);
+    return totalCost
   };
-  //input- this.ingredients(recipe ingredients) && ingredientsData
-  //output - return sum of ingredient costs of recipe
-  //methods - map, reduce
 }
 
 export default Recipe;
