@@ -9,12 +9,14 @@ describe('Pantry', function() {
   let userInfo
   let user
   let userPantry
-  let recipeInfo
-  let recipe
+  let recipeInfo1
+  let recipe1
+  let recipeInfo2
+  let recipe2
 
 
   beforeEach(function() {
-    let userInfo = {
+    userInfo = {
       "id": 1,
       "name": "Saige O'Kon",
       "pantry": [
@@ -40,7 +42,7 @@ describe('Pantry', function() {
         }]
       }
     user = new User(userInfo)
-    recipeInfo = {
+    recipeInfo1 = {
       "name": "Loaded Chocolate Chip Pudding Cookie Cups",
       "id": 595736,
       "image": "https://spoonacular.com/recipeImages/595736-556x370.jpg",
@@ -63,7 +65,31 @@ describe('Pantry', function() {
         }
       ]
     };
-    recipe = new Recipe(recipeInfo)
+    recipeInfo2 = {
+      "name": "Loaded Chocolate Chip Pudding Cookie Cups",
+      "id": 595736,
+      "image": "https://spoonacular.com/recipeImages/595736-556x370.jpg",
+      "ingredients": [
+        {
+          "name": "zucchini squash",
+          "id": 11477,
+          "quantity": {
+            "amount": 1.5,
+            "unit": "c"
+          }
+        },
+        {
+          "name": "flat leaf parsley leaves",
+          "id": 11297,
+          "quantity": {
+            "amount": 0.5,
+            "unit": "tsp"
+          }
+        }
+      ]
+    };
+    recipe1 = new Recipe(recipeInfo1)
+    recipe2 = new Recipe(recipeInfo2)
     userPantry = new Pantry(user.id, user.pantry)
   });
 
@@ -73,5 +99,10 @@ describe('Pantry', function() {
 
   it('should be an instance of Pantry', () => {
     expect(userPantry).to.be.an.instanceof(Pantry)
+  });
+
+  it('should determine whether a Pantry has enough ingredients to cook a given meal', () => {
+    expect(userPantry.determineIngredientsAvailable(recipe2)).to.equal(true)
+    expect(userPantry.determineIngredientsAvailable(recipe1)).to.equal(false)
   })
 });
