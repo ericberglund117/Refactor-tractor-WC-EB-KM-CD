@@ -3,8 +3,9 @@ class Pantry {
     this.id = userID
     this.contents = pantryArray;
   };
+};
 
-  
 
 
-  module.exports = User;
+
+export default Pantry
