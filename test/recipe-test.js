@@ -129,8 +129,9 @@ describe('Recipe', function() {
   });
 
   it('should be able to filter recipes by tag/type', function() {
-    expect(recipe.filterAllRecipes(recipeInfo, 'starter')).to.equal('Loaded Chocolate Chip Pudding Cookie Cups');
-    expect(recipe.filterAllRecipes(recipeInfo1, 'dinner')).to.equal('Maple Dijon Apple Cider Grilled Pork Chops');
+    expect(recipe.filterAllRecipes(recipeInfo, 'starter')).to.equal(recipeInfo);
+    expect(recipe.filterAllRecipes(recipeInfo1, 'dinner')).to.equal(recipeInfo1);
   });
+
 
 });

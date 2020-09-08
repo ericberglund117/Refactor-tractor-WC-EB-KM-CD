@@ -25,7 +25,7 @@ class Recipe {
 
   filterAllRecipes(recipe, tag) {
     if(recipe.tags.includes(tag)) {
-      return recipe.name
+      return recipe
     }
  };
 
