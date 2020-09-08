@@ -33,6 +33,14 @@ describe('Recipe', function() {
               "unit": "tsp"
             }
           }
+        ],
+        "tags": [
+          "antipasti",
+          "starter",
+          "snack",
+          "appetizer",
+          "antipasto",
+          "hor d'oeuvre"
         ]
       };
 
@@ -58,6 +66,12 @@ describe('Recipe', function() {
               "unit": ""
             }
           }
+        ],
+        "tags": [
+          "lunch",
+          "main course",
+          "main dish",
+          "dinner"
         ]
       };
 
@@ -107,10 +121,16 @@ describe('Recipe', function() {
         "unit": "c"
       }
     }
-    expect(recipe.ingredients[0]).to.deep.eq(ingredient);
+    expect(recipe.ingredients[0]).to.deep.equal(ingredient);
   });
 
   it('should calculate the total cost of all of the ingredients', function() {
     expect(recipe.calculateIngredientsCost(ingredientsDataTest)).to.equal(504);
   });
+
+  it('should be able to filter recipes by tag/type', function() {
+    expect(recipe.filterAllRecipes(recipeInfo, 'starter')).to.equal('Loaded Chocolate Chip Pudding Cookie Cups');
+    expect(recipe.filterAllRecipes(recipeInfo1, 'dinner')).to.equal('Maple Dijon Apple Cider Grilled Pork Chops');
+  });
+
 });
