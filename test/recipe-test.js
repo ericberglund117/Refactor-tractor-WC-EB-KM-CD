@@ -133,5 +133,9 @@ describe('Recipe', function() {
     expect(recipe.filterAllRecipes(recipeInfo1, 'dinner')).to.equal(recipeInfo1);
   });
 
+  it('should be able to search recipes by ingredients', function() {
+    expect(recipe.searchRecipes(recipeInfo, 'baking soda')).to.equal(recipeInfo);
+    expect(recipe.searchRecipes(recipeInfo1, 'apple cider')).to.equal(recipeInfo1);
+  });
 
 });

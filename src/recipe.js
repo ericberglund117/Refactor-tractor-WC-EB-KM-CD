@@ -29,6 +29,14 @@ class Recipe {
     }
  };
 
+ searchRecipes(recipe, ingredient) {
+   let ingredientsValues = Object.values(recipe.ingredients)
+   let ingredientsList = ingredientsValues.map(ingredient => ingredient.name)
+   if(ingredientsList.includes(ingredient)) {
+     return recipe
+   }
+};
+
 };
 
 export default Recipe;
