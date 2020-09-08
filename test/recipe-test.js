@@ -34,6 +34,16 @@ describe('Recipe', function() {
             }
           }
         ],
+        "instructions": [
+          {
+            "number": 1,
+            "instruction": "In a large mixing bowl, whisk together the dry ingredients (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl of a stand mixer, cream butter for 30 seconds. Gradually add granulated sugar and brown sugar and cream until light and fluffy."
+          },
+          {
+            "number": 2,
+            "instruction": "Add egg and vanilla and mix until combined."
+          },
+        ],
         "tags": [
           "antipasti",
           "starter",
@@ -65,6 +75,12 @@ describe('Recipe', function() {
               "amount": 2,
               "unit": ""
             }
+          }
+        ],
+        "instructions": [
+          {
+            "number": 1,
+            "instruction": "Season the pork chops with salt and pepper and grill or pan fry over medium high heat until cooked, about 3-5 minutes per side. (If grilling, baste the chops in the maple dijon apple cider sauce as you grill.)Meanwhile, mix the remaining ingredients except the apple slices, bring to a simmer and cook until the sauce thickens, about 2-5 minutes.Grill or saute the apple slices until just tender but still crisp.Toss the pork chops and apple slices in the maple dijon apple cider sauce and enjoy!"
           }
         ],
         "tags": [
@@ -138,4 +154,8 @@ describe('Recipe', function() {
     expect(recipe.searchRecipes(recipeInfo1, 'apple cider')).to.equal(recipeInfo1);
   });
 
+  it('the getInstructions function should return the recipe instructions', function() {
+    expect(recipe.getInstructions(recipeInfo)).to.equal(recipeInfo.instructions);
+    expect(recipe.getInstructions(recipeInfo1)).to.equal(recipeInfo1.instructions);
+  })
 });

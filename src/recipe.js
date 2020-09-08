@@ -35,8 +35,11 @@ class Recipe {
    if(ingredientsList.includes(ingredient)) {
      return recipe
    }
-};
+ };
 
+getInstructions(recipe) {
+  return recipe.instructions
+ };
 };
 
 export default Recipe;
