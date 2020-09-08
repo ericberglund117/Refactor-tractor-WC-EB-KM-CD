@@ -14,35 +14,33 @@ describe('Pantry', function() {
 
 
   beforeEach(function() {
-    let userInfo = [
-      {
-        "id": 1,
-        "name": "Saige O'Kon",
-        "pantry": [
-          {
-            "ingredient": 11477,
-            "amount": 1
-          },
-          {
-            "ingredient": 93820,
-            "amount": 1
-          },
-          {
-            "ingredient": 11297,
-            "amount": 3
-          },
-          {
-            "ingredient": 11547,
-            "amount": 5
-          },
-          {
-            "ingredient": 1082047,
-            "amount": 5
-          }]
+    let userInfo = {
+      "id": 1,
+      "name": "Saige O'Kon",
+      "pantry": [
+        {
+          "ingredient": 11477,
+          "amount": 1
+        },
+        {
+          "ingredient": 93820,
+          "amount": 1
+        },
+        {
+          "ingredient": 11297,
+          "amount": 3
+        },
+        {
+          "ingredient": 11547,
+          "amount": 5
+        },
+        {
+          "ingredient": 1082047,
+          "amount": 5
+        }]
       }
-    ];
-    let user = new User(userInfo)
-    let recipeInfo = {
+    user = new User(userInfo)
+    recipeInfo = {
       "name": "Loaded Chocolate Chip Pudding Cookie Cups",
       "id": 595736,
       "image": "https://spoonacular.com/recipeImages/595736-556x370.jpg",
@@ -65,11 +63,12 @@ describe('Pantry', function() {
         }
       ]
     };
-    let recipe = new Recipe(recipeInfo)
-    let userPantry = new Pantry(user.id, user.pantry)
+    recipe = new Recipe(recipeInfo)
+    userPantry = new Pantry(user.id, user.pantry)
   });
 
   it('should be a function', () => {
     expect(Pantry).to.be.a('function');
   });
+
 });
