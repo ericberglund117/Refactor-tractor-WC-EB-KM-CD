@@ -77,16 +77,25 @@ describe('User', function() {
   });
 
   it('should initialize with an id', function() {
-    expect(user1.id).to.eq(1);
+    expect(user1.id).to.equal(1);
   });
 
   it('should initialize with a name', function() {
-    expect(user1.name).to.eq('Saige O\'Kon');
+    expect(user1.name).to.equal('Saige O\'Kon');
   });
 
   it('should initialize with a pantry', function() {
     expect(user1.pantry[0].ingredient).to.eq(11477);
   });
+
+  it('should return 0 if there are no ingredients in the panty', function() {
+    let user3 = {
+      "id": 3,
+      "name": "Michael Scarn",
+      "pantry": []
+    };
+    expect(user3.pantry.length).to.equal(0)
+  })
 
   it('should initialize with an empty favoriteRecipes array', function() {
     expect(user1.favoriteRecipes).to.deep.equal([]);
@@ -101,9 +110,21 @@ describe('User', function() {
     expect(user1.favoriteRecipes[0].name).to.equal('Chicken Parm');
   });
 
+  it('should return an alert message if a recipe is undefined', function() {
+    user1.saveRecipe(undefined)
+    expect(user1.favoriteRecipes.length).to.equal(0)
+    user1.saveRecipe(recipe)
+    expect(user1.favoriteRecipes.length).to.equal(1)
+  })
+
   it('should be able to decide to cook a recipe', function() {
     user1.decideToCook(recipe);
     expect(user1.recipesToCook[0].name).to.equal('Chicken Parm');
+  });
+
+  it('should return the current recipesToCook array if the user decides to cook a recipe that is undefined', function() {
+    user1.decideToCook(undefined);
+    expect(user1.recipesToCook.length).to.equal(0);
   });
 
   it('should be able to filter recipes by type', function() {
@@ -111,8 +132,20 @@ describe('User', function() {
     expect(user1.filterRecipes('italian')).to.deep.equal([recipe]);
   });
 
+  it('should return null if the type is undefined in the filterRecipes function', function() {
+    let recipe1 = {name: 'strawberry shortcake biscuit', type: undefined};
+    user1.saveRecipe(recipe1)
+    expect(user1.filterRecipes(undefined)).to.equal(null)
+  })
+
   it('should be able to search recipes by name', function() {
     user1.saveRecipe(recipe);
     expect(user1.searchForRecipe('Chicken Parm')).to.deep.equal([recipe]);
+  });
+
+  it('should return null if the name is undefined in the searchForRecipe function', function() {
+    let recipe1 = {name: undefined, type: ['tasty']};
+    user1.saveRecipe(recipe1)
+    expect(user1.searchForRecipe(undefined)).to.equal(null)
   });
 });

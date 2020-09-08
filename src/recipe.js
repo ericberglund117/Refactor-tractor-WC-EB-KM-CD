@@ -1,3 +1,5 @@
+import ingredientsData from '../src/data/ingredient-Data.js'
+
 class Recipe {
   constructor(recipe) {
     this.id = recipe.id;
@@ -5,12 +7,21 @@ class Recipe {
     this.image = recipe.image;
     this.tags = recipe.tags;
     this.ingredients = recipe.ingredients;
-  }
-  calculateIngredientsCost() {
-    // return this.ingredients.map(i => {
-    //   ingredientData.find(ingredient => ingredient === i);
-    // });
-  }
+    // this.ingredientsData =
+  };
+
+  calculateIngredientsCost(ingredientsData) {
+    let cost = this.ingredients.map(recipeIngredient => {
+      let recipeAmount = recipeIngredient.quantity.amount;
+      let match = ingredientsData.find(ingredient => ingredient.id === recipeIngredient.id)
+      return match.estimatedCostInCents * recipeAmount
+    })
+    let totalCost = cost.reduce((sum, ingredientCost) => {
+      sum += ingredientCost
+      return sum
+    }, 0);
+    return totalCost
+  };
 }
 
-module.exports = Recipe;
+export default Recipe;
