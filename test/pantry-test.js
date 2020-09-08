@@ -68,4 +68,8 @@ describe('Pantry', function() {
     let recipe = new Recipe(recipeInfo)
     let userPantry = new Pantry(user.id, user.pantry)
   });
-})
+
+  it('should be a function', () => {
+    expect(Pantry).to.be.a('function');
+  });
+});
