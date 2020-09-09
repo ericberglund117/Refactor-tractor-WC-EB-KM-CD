@@ -105,4 +105,14 @@ describe('Pantry', function() {
     expect(userPantry.determineIngredientsAvailable(recipe2)).to.equal(true)
     expect(userPantry.determineIngredientsAvailable(recipe1)).to.equal(false)
   })
+
+  describe('createShoppingListForRecipe', function() {
+    it('should determine the ingredients needed to cook a given meal based on what is in my pantry', () => {
+      const expected = [
+        {name: "all purpose flour", id: 20081, amountNeeded: 1.5},
+        {name: "baking soda", id: 18372, amountNeeded: 0.5}
+      ];
+      expect(userPantry.createShoppingListForRecipe(recipe1)).to.equal(expected)
+    })
+  })
 });
