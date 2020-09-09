@@ -33,6 +33,24 @@ describe('Recipe', function() {
               "unit": "tsp"
             }
           }
+        ],
+        "instructions": [
+          {
+            "number": 1,
+            "instruction": "In a large mixing bowl, whisk together the dry ingredients (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl of a stand mixer, cream butter for 30 seconds. Gradually add granulated sugar and brown sugar and cream until light and fluffy."
+          },
+          {
+            "number": 2,
+            "instruction": "Add egg and vanilla and mix until combined."
+          },
+        ],
+        "tags": [
+          "antipasti",
+          "starter",
+          "snack",
+          "appetizer",
+          "antipasto",
+          "hor d'oeuvre"
         ]
       };
 
@@ -58,6 +76,18 @@ describe('Recipe', function() {
               "unit": ""
             }
           }
+        ],
+        "instructions": [
+          {
+            "number": 1,
+            "instruction": "Season the pork chops with salt and pepper and grill or pan fry over medium high heat until cooked, about 3-5 minutes per side. (If grilling, baste the chops in the maple dijon apple cider sauce as you grill.)Meanwhile, mix the remaining ingredients except the apple slices, bring to a simmer and cook until the sauce thickens, about 2-5 minutes.Grill or saute the apple slices until just tender but still crisp.Toss the pork chops and apple slices in the maple dijon apple cider sauce and enjoy!"
+          }
+        ],
+        "tags": [
+          "lunch",
+          "main course",
+          "main dish",
+          "dinner"
         ]
       };
 
@@ -107,10 +137,25 @@ describe('Recipe', function() {
         "unit": "c"
       }
     }
-    expect(recipe.ingredients[0]).to.deep.eq(ingredient);
+    expect(recipe.ingredients[0]).to.deep.equal(ingredient);
   });
 
   it('should calculate the total cost of all of the ingredients', function() {
     expect(recipe.calculateIngredientsCost(ingredientsDataTest)).to.equal(504);
   });
+
+  it('should be able to filter recipes by tag/type', function() {
+    expect(recipe.filterAllRecipes(recipeInfo, 'starter')).to.equal(recipeInfo);
+    expect(recipe.filterAllRecipes(recipeInfo1, 'dinner')).to.equal(recipeInfo1);
+  });
+
+  it('should be able to search recipes by ingredients', function() {
+    expect(recipe.searchRecipes(recipeInfo, 'baking soda')).to.equal(recipeInfo);
+    expect(recipe.searchRecipes(recipeInfo1, 'apple cider')).to.equal(recipeInfo1);
+  });
+
+  it('the getInstructions function should return the recipe instructions', function() {
+    expect(recipe.getInstructions(recipeInfo)).to.equal(recipeInfo.instructions);
+    expect(recipe.getInstructions(recipeInfo1)).to.equal(recipeInfo1.instructions);
+  })
 });

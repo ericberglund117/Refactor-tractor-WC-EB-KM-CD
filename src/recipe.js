@@ -1,4 +1,5 @@
 import ingredientsData from '../src/data/ingredient-Data.js'
+import recipeData from '../src/data/recipe-Data.js'
 
 class Recipe {
   constructor(recipe) {
@@ -7,7 +8,6 @@ class Recipe {
     this.image = recipe.image;
     this.tags = recipe.tags;
     this.ingredients = recipe.ingredients;
-    // this.ingredientsData =
   };
 
   calculateIngredientsCost(ingredientsData) {
@@ -22,6 +22,24 @@ class Recipe {
     }, 0);
     return totalCost
   };
-}
+
+  filterAllRecipes(recipe, tag) {
+    if(recipe.tags.includes(tag)) {
+      return recipe
+    }
+ };
+
+ searchRecipes(recipe, ingredient) {
+   let ingredientsValues = Object.values(recipe.ingredients)
+   let ingredientsList = ingredientsValues.map(ingredient => ingredient.name)
+   if(ingredientsList.includes(ingredient)) {
+     return recipe
+   }
+ };
+
+getInstructions(recipe) {
+  return recipe.instructions
+ };
+};
 
 export default Recipe;
