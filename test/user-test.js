@@ -127,15 +127,28 @@ describe('User', function() {
     expect(user1.recipesToCook.length).to.equal(0);
   });
 
-  it('should be able to filter recipes by type', function() {
+  it('should be able to filter recipes by type in favoriteRecipes', function() {
     user1.saveRecipe(recipe);
-    expect(user1.filterRecipes('italian')).to.deep.equal([recipe]);
+    expect(user1.filterRecipes('italian', user1.favoriteRecipes)).to.deep.equal([recipe]);
   });
 
-  it('should return null if the type is undefined in the filterRecipes function', function() {
+  it('should be able to filter recipes by type in recipesToCook', function() {
+    user1.decideToCook(recipe);
+    expect(user1.filterRecipes('italian', user1.recipesToCook)).to.deep.equal([recipe]);
+  });
+
+  it('should return null if the type is undefined in the filterRecipes function when looking in favoriteRecipes', function() {
     let recipe1 = {name: 'strawberry shortcake biscuit', type: undefined};
-    user1.saveRecipe(recipe1)
-    expect(user1.filterRecipes(undefined)).to.equal(null)
+    user1.saveRecipe(recipe1);
+    expect(user1.filterRecipes(undefined,
+    user1.favoriteRecipes)).to.equal(null)
+  })
+
+  it('should return null if the type is undefined in the filterRecipes function when looking in recipes to cook', function() {
+    let recipe1 = {name: 'strawberry shortcake biscuit', type: undefined};
+    user1.saveRecipe(recipe1);
+    expect(user1.filterRecipes(undefined,
+    user1.recipesToCook)).to.equal(null)
   })
 
   it('should be able to search recipes by name', function() {
