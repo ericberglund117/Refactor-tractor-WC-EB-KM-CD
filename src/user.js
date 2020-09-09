@@ -20,9 +20,9 @@ class User {
     if(recipe !== undefined) this.recipesToCook.push(recipe);
   };
 
-  filterRecipes(type) {
+  filterRecipes(type, recipeList) {
     if(type !== undefined) {
-     return this.favoriteRecipes.filter(recipe => recipe.type.includes(type));
+     return recipeList.filter(recipe => recipe.type.includes(type));
    } else {
      return null
    };
