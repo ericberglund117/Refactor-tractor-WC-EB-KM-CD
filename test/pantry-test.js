@@ -22,7 +22,7 @@ describe('Pantry', function() {
       "pantry": [
         {
           "ingredient": 11477,
-          "amount": 1
+          "amount": 1.5
         },
         {
           "ingredient": 93820,
