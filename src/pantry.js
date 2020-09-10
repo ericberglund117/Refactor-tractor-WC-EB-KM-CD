@@ -36,9 +36,7 @@ class Pantry {
 
   calculateShoppingListCost(recipe) {
     let shoppingList = this.createShoppingListForRecipe(recipe)
-    console.log(shoppingList);
     if(shoppingList.length === 0) {
-      console.log(shoppingList);
       return '$0.00'
     }
     let totalCosts = shoppingList.map(listItem => {
