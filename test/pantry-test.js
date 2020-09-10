@@ -114,6 +114,10 @@ describe('Pantry', function() {
       ];
       expect(userPantry.createShoppingListForRecipe(recipe1)).to.deep.equal(expected)
     })
+    it('should return an empty list if no ingredients are needed to cook a given meal based on what is in my pantry', () => {
+      expect(userPantry.createShoppingListForRecipe(recipe2)).to.deep.equal([])
+    })
+
   })
   describe('calculateShoppingListCost', function() {
     it('should determine the total cost of ingredients needed to cook a recipe', () => {
