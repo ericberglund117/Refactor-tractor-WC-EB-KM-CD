@@ -15,7 +15,7 @@ class Pantry {
       return recipeIng.quantity.amount <= match.amount
     })
   };
-  
+
   createShoppingListForRecipe(recipe) {
     if(this.determineIngredientsAvailable(recipe)) {
       return []
@@ -36,7 +36,9 @@ class Pantry {
 
   calculateShoppingListCost(recipe) {
     let shoppingList = this.createShoppingListForRecipe(recipe)
-    if(shoppingList === []){
+    console.log(shoppingList);
+    if(shoppingList.length === 0) {
+      console.log(shoppingList);
       return '$0.00'
     }
     let totalCosts = shoppingList.map(listItem => {
@@ -48,9 +50,5 @@ class Pantry {
     return `$${parseFloat((priceTotal).toFixed(2))}`
   };
 };
-
-
-
-
 
 export default Pantry
