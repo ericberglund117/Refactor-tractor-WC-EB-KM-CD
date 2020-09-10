@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="moving image of application in use" width="400">
   </a>
 
   <h3 align="center">Refactor Tractor</h3>
@@ -23,13 +23,9 @@
 
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
 * [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
 
@@ -38,48 +34,30 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![ScreenShot of the application recipes page][product-screenshot]](https://example.com)
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`
+This project is part of Turing Software and Design's Front-End Program, Module 2. The project focuses on refactoring a previously created application (with a handful of noticeable bugs and problematic functions). The program is implemented with ES6 syntax and exclusively uses array-prototype methods whenever iterations need to be performed. There are no for loops used in the program. Three databases were supplied, each representing a large chunk of data for randomly generated users, recipes, and ingredients. Our task is to create several objects containing methods which would dynamically display a given users' data on the DOM. This program also introduces these students to the use of Fetch (GETs and POSTs), Webpack, and Spies. These will be implemented to test the DOM manipulation functions (Spies), bundle files together (Webpack), and receive/change data available on the server (Fetch).
 
 
 ### Built With
 
-* []()
-* []()
-* []()
+* Node.js
+* Mocha
+* Chai
+* Spies
+* Webpack
 
 
 
 <!-- GETTING STARTED -->
-## Getting Started
-
-To get a local copy up and running follow these simple steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-```sh
-npm install npm@latest -g
-```
-
 ### Installation
+In your terminal:
+1. Clone the repo-
+`git clone git@github.com:ericberglund117/Refactor-tractor-WC-EB-KM-CD.git`
 
-1. Clone the repo
-```sh
-git clone https://github.com/github_username/repo_name.git
-```
-2. Install NPM packages
-```sh
-npm install
-```
+2. Install NPM packages- `npm install`
 
-
-
-<!-- USAGE EXAMPLES -->
+<!-- ******** SCREENSHOTS NEEDED ************* -->
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -87,66 +65,36 @@ Use this space to show useful examples of how a project can be used. Additional 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 
-
-<!-- ROADMAP -->
+<!-- *************** INFO NEEDED ***************** -->
 ## Roadmap
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
+The total time allotted for this project was approximately 12 days. Future features contemplated by the developers include the following:
 
+* Here's something we'd like to see added
+* Here's something we'd like to see added
+* Here's something we'd like to see added
 
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
+See the [open issues](https://github.com/ericberglund117/Refactor-tractor-WC-EB-KM-CD/issues) for a list of proposed features (and known issues).
 
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
+Eric Berglund - [Eric's Github Link](https://github.com/ericberglund117)
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Kristi Miller - [Kristi's Github Link](https://github.com/Kristiannmiller)
+
+Chadrick Dickerson - [Chadrick's Github Link](https://github.com/chadrick-d-dev)
+
+Project Link: [https://github.com/ericberglund117/Refactor-tractor-WC-EB-KM-CD](https://github.com/ericberglund117/Refactor-tractor-WC-EB-KM-CD)
 
 
 
-<!-- ACKNOWLEDGEMENTS -->
+<!-- ****************** INFO NEEDED **************** -->
 ## Acknowledgements
 
-* []()
-* []()
-* []()
+Robert Gu - This developer team would like to thank Turing Module 2 anchor instructor Robert Gu for his assistance throughout this project and for his daily lessons on the magic of Javascript.
 
+Travis Rollins - We would also like to thank Turing Module 2 instructor Travis Rollins for his guidance and assistance on this project and the module in general
 
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=flat-square
-[contributors-url]: https://github.com/github_username/repo/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo.svg?style=flat-square
-[forks-url]: https://github.com/github_username/repo/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo.svg?style=flat-square
-[stars-url]: https://github.com/github_username/repo/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo.svg?style=flat-square
-[issues-url]: https://github.com/github_username/repo/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo.svg?style=flat-square
-[license-url]: https://github.com/github_username/repo/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/github_username
-[product-screenshot]: images/screenshot.png
+Our Turing Mentors - Including Turing-wide mentor John Adams, and Turing graduates Jon Sweet, Pol Sieira, and Aimee Fritz for their constant support throughout this challenging project.

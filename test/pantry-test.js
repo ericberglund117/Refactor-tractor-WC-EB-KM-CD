@@ -22,7 +22,7 @@ describe('Pantry', function() {
       "pantry": [
         {
           "ingredient": 11477,
-          "amount": 1
+          "amount": 1.5
         },
         {
           "ingredient": 93820,
@@ -104,5 +104,27 @@ describe('Pantry', function() {
   it('should determine whether a Pantry has enough ingredients to cook a given meal', () => {
     expect(userPantry.determineIngredientsAvailable(recipe2)).to.equal(true)
     expect(userPantry.determineIngredientsAvailable(recipe1)).to.equal(false)
+  })
+
+  describe('createShoppingListForRecipe', function() {
+    it('should determine the ingredients needed to cook a given meal based on what is in my pantry', () => {
+      const expected = [
+        {name: "all purpose flour", id: 20081, amountNeeded: 1.5},
+        {name: "baking soda", id: 18372, amountNeeded: 0.5}
+      ];
+      expect(userPantry.createShoppingListForRecipe(recipe1)).to.deep.equal(expected)
+    })
+    it('should return an empty list if no ingredients are needed to cook a given meal based on what is in my pantry', () => {
+      expect(userPantry.createShoppingListForRecipe(recipe2)).to.deep.equal([])
+    })
+
+  })
+  describe('calculateShoppingListCost', function() {
+    it('should determine the total cost of ingredients needed to cook a recipe', () => {
+      expect(userPantry.calculateShoppingListCost(recipe1)).to.equal('$5.04')
+    })
+    it('should return $0.00 if no ingredients are needed to cook a given meal based on what is in my pantry', () => {
+      expect(userPantry.calculateShoppingListCost(recipe2)).to.equal('$0.00')
+    })
   })
 });
