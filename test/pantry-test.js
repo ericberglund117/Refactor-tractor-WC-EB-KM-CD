@@ -123,5 +123,8 @@ describe('Pantry', function() {
     it('should determine the total cost of ingredients needed to cook a recipe', () => {
       expect(userPantry.calculateShoppingListCost(recipe1)).to.equal('$5.04')
     })
+    it('should return $0.00 if no ingredients are needed to cook a given meal based on what is in my pantry', () => {
+      expect(userPantry.calculateShoppingListCost(recipe2)).to.equal('$0.00')
+    })
   })
 });
