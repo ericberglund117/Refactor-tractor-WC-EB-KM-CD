@@ -112,7 +112,7 @@ describe('Pantry', function() {
         {name: "all purpose flour", id: 20081, amountNeeded: 1.5},
         {name: "baking soda", id: 18372, amountNeeded: 0.5}
       ];
-      expect(userPantry.createShoppingListForRecipe(recipe1)).to.equal(expected)
+      expect(userPantry.createShoppingListForRecipe(recipe1)).to.deep.equal(expected)
     })
   })
 });
