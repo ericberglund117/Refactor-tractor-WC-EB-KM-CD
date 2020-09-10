@@ -1,3 +1,5 @@
+import ingredientsData from '../src/data/ingredient-Data.js'
+
 class Pantry {
   constructor(userID, pantryArray) {
     this.id = userID
@@ -12,7 +14,8 @@ class Pantry {
       }
       return recipeIng.quantity.amount <= match.amount
     })
-  }
+  };
+  
   createShoppingListForRecipe(recipe) {
     if(this.determineIngredientsAvailable(recipe)) {
       return []
@@ -29,8 +32,22 @@ class Pantry {
       {name: listItem.name, id: listItem.id, amountNeeded: listItem.quantity.amount} :
       {name: listItem.name, id: listItem.id, amountNeeded: listItem.quantity.amount - match.amount}
     })
-  }
-}
+  };
+
+  calculateShoppingListCost(recipe) {
+    let shoppingList = this.createShoppingListForRecipe(recipe)
+    if(shoppingList === []){
+      return '$0.00'
+    }
+    let totalCosts = shoppingList.map(listItem => {
+      let cost = ingredientsData.find(ingredient => ingredient.id === listItem.id).estimatedCostInCents
+      let itemCost = (cost * listItem.amountNeeded) / 100
+      return itemCost
+    })
+    let priceTotal = totalCosts.reduce((sum, price) => sum + price, 0)
+    return `$${parseFloat((priceTotal).toFixed(2))}`
+  };
+};
 
 
 
