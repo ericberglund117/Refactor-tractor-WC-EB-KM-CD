@@ -115,4 +115,9 @@ describe('Pantry', function() {
       expect(userPantry.createShoppingListForRecipe(recipe1)).to.deep.equal(expected)
     })
   })
+  describe('calculateShoppingListCost', function() {
+    it('should determine the total cost of ingredients needed to cook a recipe', () => {
+      expect(userPantry.calculateShoppingListCost(recipe1)).to.equal('$7.24')
+    })
+  })
 });
