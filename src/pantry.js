@@ -5,11 +5,6 @@ class Pantry {
   };
 
   determineIngredientsAvailable(recipe) {
-    // let match = recipe.ingredients.map(recipeIngredient => {
-    //   return this.contents.find(item => item.ingredient === recipeIngredient.id)
-    // })
-    // console.log(match)
-    // return match.includes(undefined) ? false : true
     return recipe.ingredients.every(recipeIng => {
       let match = this.contents.find(item => item.ingredient === recipeIng.id)
       if(match === undefined) {
@@ -17,9 +12,24 @@ class Pantry {
       }
       return recipeIng.quantity.amount <= match.amount
     })
-
   }
-
+  createShoppingListForRecipe(recipe) {
+    if(this.determineIngredientsAvailable(recipe)) {
+      return []
+    }
+    return recipe.ingredients.filter(recipeIng => {
+      let match = this.contents.find(pantryIng => pantryIng.ingredient === recipeIng.id)
+      if(match === undefined) {
+        return true
+      }
+      return recipeIng.quantity.amount > match.amount
+    }).map(listItem => {
+      let match = this.contents.find(pantryIng => pantryIng.ingredient === listItem.id)
+      return match === undefined ?
+      {name: listItem.name, id: listItem.id, amountNeeded: listItem.quantity.amount} :
+      {name: listItem.name, id: listItem.id, amountNeeded: listItem.quantity.amount - match.amount}
+    })
+  }
 }
 
 
