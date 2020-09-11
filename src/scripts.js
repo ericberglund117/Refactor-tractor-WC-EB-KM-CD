@@ -66,7 +66,7 @@ function getIngredients() {
 function getRecipes() {
   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
     .then(response => response.json())
-    .then(data => {recipeData = data.recipeData, findTags(recipeData)})
+    .then(data => {recipeData = data.recipeData, findTags(recipeData), createCards(recipeData)})
     .catch(error => console.log(error))
 }
 
@@ -84,7 +84,7 @@ function generateUser(users) {
 }
 
 // CREATE RECIPE CARDS
-function createCards() {
+function createCards(recipeData) {
   recipeData.forEach(recipe => {
     let recipeInfo = new Recipe(recipe);
     let shortRecipeName = recipeInfo.name;
@@ -94,7 +94,7 @@ function createCards() {
     }
     addToDom(recipeInfo, shortRecipeName)
   });
-}
+};
 
 function addToDom(recipeInfo, shortRecipeName) {
   let cardHtml = `
