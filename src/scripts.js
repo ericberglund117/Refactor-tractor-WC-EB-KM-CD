@@ -1,7 +1,7 @@
 import $ from 'jquery';
-import users from './data/users-data';
-import recipeData from  './data/recipe-data';
-import ingredientData from './data/ingredient-data';
+// import users from './data/users-data';
+// import recipeData from  './data/recipe-data';
+// import ingredientData from './data/ingredient-data';
 
 import './css/base.scss';
 import './css/styles.scss';
@@ -29,6 +29,9 @@ let user;
 window.addEventListener("load", createCards);
 window.addEventListener("load", findTags);
 window.addEventListener("load", generateUser);
+window.addEventListener("load", getUsers);
+window.addEventListener("load", getIngredients);
+window.addEventListener("load", getRecipes);
 allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
@@ -38,8 +41,30 @@ searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
+//-----fetch request---------
+function getUsers() {
+  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData')
+    .then(response => response.json())
+    .then(data => generateUser(data.wcUsersData))
+    .catch(error => console.log(error))
+}
+
+function getIngredients() {
+  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData')
+    .then(response => response.json())
+    .then(data => findPantryInfo(data.ingredientsData))
+    .catch(error => console.log(error))
+}
+
+function getRecipes() {
+  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
+    .then(response => response.json())
+    .then(data => findTags(data.recipeData))
+    .catch(error => console.log(error))
+}
+
 // GENERATE A USER ON LOAD
-function generateUser() {
+function generateUser(users) {
   user = new User(users[Math.floor(Math.random() * users.length)]);
   let firstName = user.name.split(" ")[0];
   let welcomeMsg = `
@@ -81,7 +106,7 @@ function addToDom(recipeInfo, shortRecipeName) {
 }
 
 // FILTER BY RECIPE TAGS
-function findTags() {
+function findTags(recipeData) {
   let tags = [];
   recipeData.forEach(recipe => {
     recipe.tags.forEach(tag => {
@@ -295,7 +320,7 @@ function showAllRecipes() {
 }
 
 // CREATE AND USE PANTRY
-function findPantryInfo() {
+function findPantryInfo(ingredientsData) {
   user.pantry.forEach(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
