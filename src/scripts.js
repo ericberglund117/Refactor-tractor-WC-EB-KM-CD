@@ -5,6 +5,10 @@ import $ from 'jquery';
 
 import './css/base.scss';
 import './css/styles.scss';
+import './images/seasoning.png';
+import './images/apple-logo.png';
+import './images/search.png';
+import './images/cookbook.png';
 
 import User from './user';
 import Recipe from './recipe';
@@ -24,12 +28,15 @@ let searchInput = document.querySelector("#search-input");
 let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
 let tagList = document.querySelector(".tag-list");
 let user;
+let users;
+let ingredientsData;
+let recipeData;
 
 
 window.addEventListener("load", createCards);
 window.addEventListener("load", findTags);
-window.addEventListener("load", generateUser);
 window.addEventListener("load", getUsers);
+//window.addEventListener("load", generateUser);
 window.addEventListener("load", getIngredients);
 window.addEventListener("load", getRecipes);
 allRecipesBtn.addEventListener("click", showAllRecipes);
@@ -45,21 +52,21 @@ searchForm.addEventListener("submit", pressEnterSearch);
 function getUsers() {
   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData')
     .then(response => response.json())
-    .then(data => generateUser(data.wcUsersData))
+    .then(data => {users = data.wcUsersData, generateUser(users)})
     .catch(error => console.log(error))
 }
 
 function getIngredients() {
   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData')
     .then(response => response.json())
-    .then(data => findPantryInfo(data.ingredientsData))
+    .then(data => {ingredientsData = data.ingredientsData, findPantryInfo(ingredientsData)})
     .catch(error => console.log(error))
 }
 
 function getRecipes() {
   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
     .then(response => response.json())
-    .then(data => findTags(data.recipeData))
+    .then(data => {recipeData = data.recipeData, findTags(recipeData)})
     .catch(error => console.log(error))
 }
 
