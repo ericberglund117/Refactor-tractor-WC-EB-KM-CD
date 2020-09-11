@@ -7,6 +7,7 @@ import './css/base.scss';
 import './css/styles.scss';
 import './images/seasoning.png';
 import './images/apple-logo.png';
+import './images/apple-logo-outline.png';
 import './images/search.png';
 import './images/cookbook.png';
 
@@ -33,8 +34,8 @@ let ingredientsData;
 let recipeData;
 
 
-window.addEventListener("load", createCards);
-window.addEventListener("load", findTags);
+// window.addEventListener("load", createCards);
+// window.addEventListener("load", findTags);
 window.addEventListener("load", getUsers);
 //window.addEventListener("load", generateUser);
 window.addEventListener("load", getIngredients);
@@ -85,6 +86,7 @@ function generateUser(users) {
 
 // CREATE RECIPE CARDS
 function createCards(recipeData) {
+  console.log(recipeData)
   recipeData.forEach(recipe => {
     let recipeInfo = new Recipe(recipe);
     let shortRecipeName = recipeInfo.name;
@@ -107,7 +109,7 @@ function addToDom(recipeInfo, shortRecipeName) {
         </div>
       </div>
       <h4>${recipeInfo.tags[0]}</h4>
-      <img src="../images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
+      <img src="./images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
     </div>`
   main.insertAdjacentHTML("beforeend", cardHtml);
 }
@@ -186,10 +188,10 @@ function addToMyRecipes() {
   if (event.target.className === "card-apple-icon") {
     let cardId = parseInt(event.target.closest(".recipe-card").id)
     if (!user.favoriteRecipes.includes(cardId)) {
-      event.target.src = "../images/apple-logo.png";
+      event.target.src = "./images/apple-logo.png";
       user.saveRecipe(cardId);
     } else {
-      event.target.src = "../images/apple-logo-outline.png";
+      event.target.src = "./images/apple-logo-outline.png";
       user.removeRecipe(cardId);
     }
   } else if (event.target.id === "exit-recipe-btn") {
@@ -224,7 +226,7 @@ function showSavedRecipes() {
 // CREATE RECIPE INSTRUCTIONS
 function openRecipeInfo(event) {
   fullRecipeInfo.style.display = "inline";
-  let recipeId = event.path.find(e => e.id).id;
+  let recipeId = event.composedPath().find(e => e.id).id;
   let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
   generateRecipeTitle(recipe, generateIngredients(recipe));
   addRecipeImage(recipe);
@@ -328,7 +330,9 @@ function showAllRecipes() {
 
 // CREATE AND USE PANTRY
 function findPantryInfo(ingredientsData) {
-  user.pantry.forEach(item => {
+  console.log(user.pantry)
+  console.log(pantryInfo)
+  let pantryMatch = user.pantry.map(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
     });
