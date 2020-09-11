@@ -81,7 +81,7 @@ function generateUser(users) {
     </div>`;
   document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
     welcomeMsg);
-  findPantryInfo();
+  findPantryInfo(ingredientsData);
 }
 
 // CREATE RECIPE CARDS
