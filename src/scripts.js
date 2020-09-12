@@ -66,7 +66,7 @@ function getUsers() {
 function getIngredients() {
   return fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData')
     .then(response => response.json())
-    .then(data => {ingredientsData = data.ingredientsData, findPantryInfo(ingredientsData)})
+    .then(data => data.ingredientsData)
     .catch(error => console.log(error))
 }
 
