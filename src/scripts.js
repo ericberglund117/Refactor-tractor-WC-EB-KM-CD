@@ -59,7 +59,7 @@ function checkData() {
 function getUsers() {
   return fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData')
     .then(response => response.json())
-    .then(data => {users = data.wcUsersData, generateUser(users)})
+    .then(data => data.wcUsersData)
     .catch(error => console.log(error))
 }
 
