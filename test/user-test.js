@@ -259,7 +259,7 @@ describe('User', function() {
   it('should determine whether a Pantry has enough ingredients to cook a given meal', () => {
     expect(user.determineIngredientsAvailable(recipe2)).to.equal(true)
     expect(user.determineIngredientsAvailable(recipe1)).to.equal(false)
-  })
+  });
 
   describe('createShoppingListForRecipe', function() {
     it('should determine the ingredients needed to cook a given meal based on what is in my pantry', () => {
@@ -272,8 +272,8 @@ describe('User', function() {
     it('should return an empty list if no ingredients are needed to cook a given meal based on what is in my pantry', () => {
       expect(user.createShoppingListForRecipe(recipe2)).to.deep.equal([])
     })
+  });
 
-  })
   describe('calculateShoppingListCost', function() {
     it('should determine the total cost of ingredients needed to cook a recipe', () => {
       expect(user.calculateShoppingListCost(recipe1, ingredientsDataTest1)).to.equal('$5.04')
@@ -281,5 +281,29 @@ describe('User', function() {
     it('should return $0.00 if no ingredients are needed to cook a given meal based on what is in my pantry', () => {
       expect(user.calculateShoppingListCost(recipe2)).to.equal('$0.00')
     })
-  })
+  });
+
+  describe('removeIngredientsFromPantry', function() {
+    it('should remove the ingredient amount from the pantry that was needed to cook a recipe', () => {
+      const expectedPantry = [
+        {
+          "ingredient": 93820,
+          "amount": 1
+        },
+        {
+          "ingredient": 11297,
+          "amount": 2.5
+        },
+        {
+          "ingredient": 11547,
+          "amount": 5
+        },
+        {
+          "ingredient": 1082047,
+          "amount": 5
+        }];
+      user.decideToCook(recipe2);
+      expect(user.pantry).to.equal(expectedPantry);
+    })
+  });
 });
