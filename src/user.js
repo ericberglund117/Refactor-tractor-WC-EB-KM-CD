@@ -5,6 +5,7 @@ class User {
     this.pantry = user.pantry;
     this.favoriteRecipes = [];
     this.recipesToCook = [];
+    this.recipesCooked = [];
   };
 
   saveRecipe(recipe) {
@@ -17,7 +18,10 @@ class User {
   };
 
   decideToCook(recipe) {
-    if(recipe !== undefined) this.recipesToCook.push(recipe);
+    if(recipe === undefined) {
+      return undefined
+    }
+    (this.determineIngredientsAvailable(recipe) ? this.recipesToCook.push(recipe) : this.createShoppingListForRecipe(recipe))
   };
 
   filterRecipes(type, recipeList) {
@@ -42,7 +46,7 @@ class User {
       if(match === undefined) {
         return false
       }
-      return recipeIng.quantity.amount <= match.amount
+      recipeIng.quantity.amount <= match.amount
     })
   };
 
@@ -77,6 +81,18 @@ class User {
     let priceTotal = totalCosts.reduce((sum, price) => sum + price, 0)
     return `$${parseFloat((priceTotal).toFixed(2))}`
   };
+
+  // removeIngredientsFromPantry(recipe) {
+  //   console.log(this.recipesToCook[this.recipesToCook.length - 1].ingredients);
+  //   console.log(this.pantry)
+  //   return recipe.recipesToCook.filter(recipeIng => {
+  //     let match = this.pantry.find(pantryIng => pantryIng.ingredient === recipeIng.id)
+  //     if(match === undefined) {
+  //       return true
+  //     }
+  //     console.log(match)
+  //     return recipeIng.quantity.amount - match.amount
+  // });
 };
 
-module.exports = User;
+export default User;

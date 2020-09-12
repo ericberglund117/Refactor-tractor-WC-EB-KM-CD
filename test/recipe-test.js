@@ -2,7 +2,6 @@ import { expect } from 'chai';
 
 import Recipe from '../src/recipe';
 
-
 describe('Recipe', function() {
   let recipe;
   let recipe1;

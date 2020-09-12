@@ -1,8 +1,10 @@
-import ingredientsData from '../src/data/ingredient-Data.js'
-import recipeData from '../src/data/recipe-Data.js'
+// import ingredientsData from '../src/data/ingredient-Data.js'
+// import recipeData from '../src/data/recipe-Data.js'
+// import User from '../src/user';
 
 class Recipe {
   constructor(recipe) {
+    // super()
     this.id = recipe.id;
     this.name = recipe.name;
     this.image = recipe.image;
