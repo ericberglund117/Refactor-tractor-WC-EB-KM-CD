@@ -229,8 +229,8 @@ function openRecipeInfo(event) {
   fullRecipeInfo.style.display = "inline";
   let recipeId = event.composedPath().find(e => e.id).id;
   let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
-  console.log("Captain Crusty", recipe);
-  console.log("Uncle Billy", recipeData);
+  // console.log("Captain Crusty", recipe);
+  // console.log("Uncle Billy", recipeData);
   generateRecipeTitle(recipe, generateIngredients(recipe));
   addRecipeImage(recipe);
   generateInstructions(recipe);
@@ -242,7 +242,7 @@ function generateRecipeTitle(recipe, ingredients) {
     <button id="exit-recipe-btn">X</button>
     <h3 id="recipe-title">${recipe.name}</h3>
     <h4>Ingredients</h4>
-    <p>${recipe.ingredients}</p>`
+    <p>${ingredients}</p>`
   fullRecipeInfo.insertAdjacentHTML("beforeend", recipeTitle);
 }
 
