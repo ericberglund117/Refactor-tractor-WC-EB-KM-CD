@@ -77,6 +77,16 @@ function getRecipes() {
     .catch(error => console.log(error))
 }
 
+function loadPageInfo(allData) {
+  users = allData[0]
+  ingredientsData = allData[1]
+  recipeData = allData[2]
+  generateUser(users)
+  findPantryInfo(ingredientsData)
+  findTags(recipeData)
+  createCards(recipeData)
+}
+
 // GENERATE A USER ON LOAD
 function generateUser(users) {
   user = new User(users[Math.floor(Math.random() * users.length)]);
