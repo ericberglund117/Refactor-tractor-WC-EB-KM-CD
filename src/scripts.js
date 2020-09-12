@@ -73,7 +73,7 @@ function getIngredients() {
 function getRecipes() {
   return fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
     .then(response => response.json())
-    .then(data => {recipeData = data.recipeData, findTags(recipeData), createCards(recipeData)})
+    .then(data => data.recipeData)
     .catch(error => console.log(error))
 }
 
