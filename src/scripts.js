@@ -1,8 +1,5 @@
+// ************ IMPORTED FILES ***************
 import $ from 'jquery';
-// import users from './data/users-data';
-// import recipeData from  './data/recipe-data';
-// import ingredientData from './data/ingredient-data';
-
 import './css/base.scss';
 import './css/styles.scss';
 import './images/seasoning.png';
@@ -10,26 +7,28 @@ import './images/apple-logo.png';
 import './images/apple-logo-outline.png';
 import './images/search.png';
 import './images/cookbook.png';
-
 import User from './user';
 import Recipe from './recipe';
 
+// ************ QUERY SELECTORS ***************
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector(".filter-btn");
 let fullRecipeInfo = document.querySelector(".recipe-instructions");
 let main = document.querySelector("main");
-let menuOpen = false;
 let pantryBtn = document.querySelector(".my-pantry-btn");
-let pantryInfo = [];
-let recipes = [];
 let savedRecipesBtn = document.querySelector(".saved-recipes-btn");
 let searchBtn = document.querySelector(".search-btn");
 let searchForm = document.querySelector("#search");
 let searchInput = document.querySelector("#search-input");
 let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
 let tagList = document.querySelector(".tag-list");
-let user;
-let users;
+
+// ************ GLOBAL VARIABLES ***************
+let menuOpen = false;
+let pantryInfo = [];
+let recipes = [];
+let allUsersData;
+let currentUser;
 let ingredientsData;
 let recipeData;
 
@@ -78,26 +77,25 @@ function getRecipes() {
 }
 
 function loadPageInfo(allData) {
-  users = allData[0]
+  allUsersData = allData[0]
   ingredientsData = allData[1]
   recipeData = allData[2]
-  generateUser(users)
+  generateUser(allUsersData)
   findPantryInfo(ingredientsData)
   findTags(recipeData)
   createCards(recipeData)
 }
 
 // GENERATE A USER ON LOAD
-function generateUser(users) {
-  user = new User(users[Math.floor(Math.random() * users.length)]);
-  let firstName = user.name.split(" ")[0];
+function generateUser(allUsersData) {
+  currentUser = new User(allUsersData[Math.floor(Math.random() * allUsersData.length)]);
+  let firstName = currentUser.name.split(" ")[0];
   let welcomeMsg = `
     <div class="welcome-msg">
       <h1>Welcome ${firstName}!</h1>
     </div>`;
   document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
     welcomeMsg);
-  findPantryInfo(ingredientsData);
 }
 
 // CREATE RECIPE CARDS
@@ -204,12 +202,12 @@ function hideUnselectedRecipes(foundRecipes) {
 function addToMyRecipes(event) {
   if (event.target.className === "card-apple-icon") {
     let cardId = parseInt(event.target.closest(".recipe-card").id)
-    if (!user.favoriteRecipes.includes(cardId)) {
+    if (!currentUser.favoriteRecipes.includes(cardId)) {
       event.target.src = "./images/apple-logo.png";
-      user.saveRecipe(cardId);
+      currentUser.saveRecipe(cardId);
     } else {
       event.target.src = "./images/apple-logo-outline.png";
-      user.removeRecipe(cardId);
+      currentUser.removeRecipe(cardId);
     }
   } else if (event.target.id === "exit-recipe-btn") {
     exitRecipe();
@@ -231,7 +229,7 @@ function isDescendant(parent, child) {
 
 function showSavedRecipes() {
   let unsavedRecipes = recipes.filter(recipe => {
-    return !user.favoriteRecipes.includes(recipe.id);
+    return !currentUser.favoriteRecipes.includes(recipe.id);
   });
   unsavedRecipes.forEach(recipe => {
     let domRecipe = document.getElementById(`${recipe.id}`);
@@ -353,7 +351,7 @@ function showAllRecipes() {
 function findPantryInfo(ingredientsData) {
   // console.log(user.pantry)
   // console.log(pantryInfo)
-  let pantryMatch = user.pantry.map(item => {
+  let pantryMatch = currentUser.pantry.map(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
     });
