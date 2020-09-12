@@ -33,13 +33,13 @@ let users;
 let ingredientsData;
 let recipeData;
 
-
+window.addEventListener("load", checkData);
 // window.addEventListener("load", createCards);
 // window.addEventListener("load", findTags);
-window.addEventListener("load", getUsers);
+// window.addEventListener("load", getUsers);
 //window.addEventListener("load", generateUser);
-window.addEventListener("load", getIngredients);
-window.addEventListener("load", getRecipes);
+// window.addEventListener("load", getIngredients);
+// window.addEventListener("load", getRecipes);
 allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
