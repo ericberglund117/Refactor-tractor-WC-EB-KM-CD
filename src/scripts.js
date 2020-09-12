@@ -50,6 +50,12 @@ showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
 //-----fetch request---------
+function checkData() {
+  Promise.all([getUsers(), getIngredients(), getRecipes()])
+  .then(data => loadPageInfo(data))
+  .catch(error => console.log(error))
+}
+
 function getUsers() {
   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData')
     .then(response => response.json())
