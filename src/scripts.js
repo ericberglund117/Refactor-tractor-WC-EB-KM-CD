@@ -81,12 +81,12 @@ function generateUser(users) {
     </div>`;
   document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
     welcomeMsg);
-  findPantryInfo();
+  findPantryInfo(ingredientsData);
 }
 
 // CREATE RECIPE CARDS
 function createCards(recipeData) {
-  console.log(recipeData)
+  // console.log(recipeData)
   recipeData.forEach(recipe => {
     let recipeInfo = new Recipe(recipe);
     let shortRecipeName = recipeInfo.name;
@@ -137,6 +137,7 @@ function listTags(allTags) {
 }
 
 function capitalize(words) {
+  console.log(typeof words);
   return words.split(" ").map(word => {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }).join(" ");
@@ -184,7 +185,7 @@ function hideUnselectedRecipes(foundRecipes) {
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
-function addToMyRecipes() {
+function addToMyRecipes(event) {
   if (event.target.className === "card-apple-icon") {
     let cardId = parseInt(event.target.closest(".recipe-card").id)
     if (!user.favoriteRecipes.includes(cardId)) {
@@ -228,6 +229,8 @@ function openRecipeInfo(event) {
   fullRecipeInfo.style.display = "inline";
   let recipeId = event.composedPath().find(e => e.id).id;
   let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
+  // console.log("Captain Crusty", recipe);
+  // console.log("Uncle Billy", recipeData);
   generateRecipeTitle(recipe, generateIngredients(recipe));
   addRecipeImage(recipe);
   generateInstructions(recipe);
@@ -248,8 +251,10 @@ function addRecipeImage(recipe) {
 }
 
 function generateIngredients(recipe) {
-  return recipe && recipe.ingredients.map(i => {
-    return `${capitalize(i.name)} (${i.quantity.amount} ${i.quantity.unit})`
+  console.log(ingredientsData);
+  return recipe && recipe.ingredients.map(ingredient => {
+    let ingredientInfo = ingredientsData.find(dataIng => dataIng.id === ingredient.id);
+    return `${capitalize(ingredientInfo.name)} (${ingredient.quantity.amount} ${ingredient.quantity.unit})`
   }).join(", ");
 }
 
@@ -330,8 +335,8 @@ function showAllRecipes() {
 
 // CREATE AND USE PANTRY
 function findPantryInfo(ingredientsData) {
-  console.log(user.pantry)
-  console.log(pantryInfo)
+  // console.log(user.pantry)
+  // console.log(pantryInfo)
   let pantryMatch = user.pantry.map(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
@@ -387,3 +392,20 @@ function findRecipesWithCheckedIngredients(selected) {
     }
   })
 }
+
+// function removePantryIngredients(itemToRemove) {
+//   let letIte
+//   pantryInfo
+//   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(),
+//   })
+//     .then
+//
+//   })
+// }
+//
+// function stockPantryIngredients
