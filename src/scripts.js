@@ -57,21 +57,21 @@ function checkData() {
 }
 
 function getUsers() {
-  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData')
+  return fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData')
     .then(response => response.json())
     .then(data => {users = data.wcUsersData, generateUser(users)})
     .catch(error => console.log(error))
 }
 
 function getIngredients() {
-  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData')
+  return fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData')
     .then(response => response.json())
     .then(data => {ingredientsData = data.ingredientsData, findPantryInfo(ingredientsData)})
     .catch(error => console.log(error))
 }
 
 function getRecipes() {
-  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
+  return fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
     .then(response => response.json())
     .then(data => {recipeData = data.recipeData, findTags(recipeData), createCards(recipeData)})
     .catch(error => console.log(error))
