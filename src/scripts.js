@@ -251,8 +251,10 @@ function addRecipeImage(recipe) {
 }
 
 function generateIngredients(recipe) {
+  console.log(ingredientsData);
   return recipe && recipe.ingredients.map(ingredient => {
-    return `${capitalize(recipe.name)} (${ingredient.quantity.amount} ${ingredient.quantity.unit})`
+    let ingredientInfo = ingredientsData.find(dataIng => dataIng.id === ingredient.id);
+    return `${capitalize(ingredientInfo.name)} (${ingredient.quantity.amount} ${ingredient.quantity.unit})`
   }).join(", ");
 }
 
