@@ -392,3 +392,20 @@ function findRecipesWithCheckedIngredients(selected) {
     }
   })
 }
+
+// function removePantryIngredients(itemToRemove) {
+//   let letIte
+//   pantryInfo
+//   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(),
+//   })
+//     .then
+//
+//   })
+// }
+//
+// function stockPantryIngredients
