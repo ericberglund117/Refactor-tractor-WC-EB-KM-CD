@@ -482,29 +482,32 @@ function displaySearchedIngreds(ingreds) {
         let ingredID = amount.parentNode.parentNode.id;
         let ingredMod = amount.value;
         console.log('id', ingredID, 'value', ingredMod)
-        currentUser.updateCurrentUserPantry(ingredID, ingredMod);
+        if(ingredMod > 0 || ingredMod < 0){
+          currentUser.updateCurrentUserPantry(ingredID, ingredMod);
+          updatePantryIngredients(ingredID, ingredMod)
+        }
       }
     })
   }
 }
 
 
-// function removePantryIngredients(itemToRemove)
-//   let letIte
-//   pantryInfo
-//   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(),currentUser.pantry
-//   })
-//     .then
-//     // call function that adds or removes ingredients
-//     // let addToPantry = true - do this
-//     //
-//
-//   })
-// }
+function updatePantryIngredients(ingredID, ingredMod) {
+  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "userID": currentUser.id,
+      "ingredientID": +ingredID,
+      "ingredientModification": +ingredMod
+    })
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.log(error))
+}
+
 //
 // function stockPantryIngredients
