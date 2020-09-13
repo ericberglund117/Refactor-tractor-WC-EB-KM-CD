@@ -47,7 +47,7 @@ allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
 pantryBtn.addEventListener("click", toggleMenu);
-savedRecipesBtn.addEventListener("click", showSavedRecipes);
+savedRecipesBtn.addEventListener("click", domUpdates.showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
@@ -184,17 +184,6 @@ function isDescendant(parent, child) {
     node = node.parentNode;
   }
   return false;
-}
-
-function showSavedRecipes() {
-  let unsavedRecipes = recipes.filter(recipe => {
-    return !currentUser.favoriteRecipes.includes(recipe.id);
-  });
-  unsavedRecipes.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "none";
-  });
-  showMyRecipesBanner();
 }
 
 // CREATE RECIPE INSTRUCTIONS

@@ -54,6 +54,24 @@ let domUpdates = {
     });
   },
 
+// FAVORITE RECIPE FUNCTIONALITY
+
+  showSavedRecipes() {
+    let unsavedRecipes = recipes.filter(recipe => {
+      return !currentUser.favoriteRecipes.includes(recipe.id);
+    });
+    unsavedRecipes.forEach(recipe => {
+      let domRecipe = document.getElementById(`${recipe.id}`);
+      domRecipe.style.display = "none";
+    });
+    this.showMyRecipesBanner();
+  },
+
+// TOGGLE DISPLAYS
+  showMyRecipesBanner() {
+    document.querySelector(".welcome-msg").style.display = "none";
+    document.querySelector(".my-recipes-banner").style.display = "block";
+  }
 }
 
 export default domUpdates;
