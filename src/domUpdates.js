@@ -29,6 +29,8 @@ let domUpdates = {
     main.insertAdjacentHTML("beforeend", cardHtml);
   },
 
+// FILTER BY RECIPE TAGS
+
   listTags(allTags) {
     let tagList = document.querySelector(".tag-list");
     allTags.forEach(tag => {
@@ -43,6 +45,13 @@ let domUpdates = {
     return words.split(" ").map(word => {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(" ");
+  },
+
+  hideUnselectedRecipes(foundRecipes) {
+    foundRecipes.forEach(recipe => {
+      let domRecipe = document.getElementById(`${recipe.id}`);
+      domRecipe.style.display = "none";
+    });
   },
 
 }

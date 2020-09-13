@@ -98,7 +98,6 @@ function loadPageInfo(allData) {
 
 // CREATE RECIPE CARDS
 function createCards(recipeData) {
-  // console.log(recipeData)
   recipeData.forEach(recipe => {
     let recipeInfo = new Recipe(recipe);
     let shortRecipeName = recipeInfo.name;
@@ -109,8 +108,6 @@ function createCards(recipeData) {
     domUpdates.displayCard(recipeInfo, shortRecipeName)
   });
 };
-
-
 
 // FILTER BY RECIPE TAGS
 function findTags(recipeData) {
@@ -157,14 +154,7 @@ function filterRecipes(filtered) {
   let foundRecipes = recipes.filter(recipe => {
     return !filtered.includes(recipe);
   });
-  hideUnselectedRecipes(foundRecipes)
-}
-
-function hideUnselectedRecipes(foundRecipes) {
-  foundRecipes.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "none";
-  });
+  domUpdates.hideUnselectedRecipes(foundRecipes)
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
