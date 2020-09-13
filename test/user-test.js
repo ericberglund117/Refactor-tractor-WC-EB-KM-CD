@@ -1,13 +1,20 @@
 import { expect } from 'chai';
 
 import User from '../src/user';
-// import users from '../data/users-data';
+import Recipe from '../src/recipe';
 
 describe('User', function() {
   let user1;
   let user2;
   let userInfo;
   let recipe;
+  let user
+  let userPantry
+  let recipeInfo1
+  let recipe1
+  let recipeInfo2
+  let recipe2
+  let ingredientsDataTest1, ingredientsDataTest2
 
   beforeEach(function() {
     userInfo = [
@@ -160,5 +167,143 @@ describe('User', function() {
     let recipe1 = {name: undefined, type: ['tasty']};
     user1.saveRecipe(recipe1)
     expect(user1.searchForRecipe(undefined)).to.equal(null)
+  });
+
+  beforeEach(function() {
+    userInfo = {
+      "id": 1,
+      "name": "Saige O'Kon",
+      "pantry": [
+        {
+          "ingredient": 11477,
+          "amount": 1.5
+        },
+        {
+          "ingredient": 93820,
+          "amount": 1
+        },
+        {
+          "ingredient": 11297,
+          "amount": 3
+        },
+        {
+          "ingredient": 11547,
+          "amount": 5
+        },
+        {
+          "ingredient": 1082047,
+          "amount": 5
+        }]
+      }
+    user = new User(userInfo)
+    recipeInfo1 = {
+      "name": "Loaded Chocolate Chip Pudding Cookie Cups",
+      "id": 595736,
+      "image": "https://spoonacular.com/recipeImages/595736-556x370.jpg",
+      "ingredients": [
+        {
+          "name": "all purpose flour",
+          "id": 20081,
+          "quantity": {
+            "amount": 1.5,
+            "unit": "c"
+          }
+        },
+        {
+          "name": "baking soda",
+          "id": 18372,
+          "quantity": {
+            "amount": 0.5,
+            "unit": "tsp"
+          }
+        }
+      ]
+    };
+    recipeInfo2 = {
+      "name": "Loaded Chocolate Chip Pudding Cookie Cups",
+      "id": 595736,
+      "image": "https://spoonacular.com/recipeImages/595736-556x370.jpg",
+      "ingredients": [
+        {
+          "name": "zucchini squash",
+          "id": 11477,
+          "quantity": {
+            "amount": 1.5,
+            "unit": "c"
+          }
+        },
+        {
+          "name": "flat leaf parsley leaves",
+          "id": 11297,
+          "quantity": {
+            "amount": 0.5,
+            "unit": "tsp"
+          }
+        }
+      ]
+    };
+    recipe1 = new Recipe(recipeInfo1);
+    recipe2 = new Recipe(recipeInfo2);
+    ingredientsDataTest1 = [{
+      "id": 20081,
+      "name": "wheat flour",
+      "estimatedCostInCents": 142
+      },
+      {
+      "id": 18372,
+      "name": "bicarbonate of soda",
+      "estimatedCostInCents": 582
+    }];
+  });
+
+  it('should determine whether a Pantry has enough ingredients to cook a given meal', () => {
+    expect(user.determineIngredientsAvailable(recipe2)).to.equal(true)
+    expect(user.determineIngredientsAvailable(recipe1)).to.equal(false)
+  });
+
+  describe('createShoppingListForRecipe', function() {
+    it('should determine the ingredients needed to cook a given meal based on what is in my pantry', () => {
+      const expected = [
+        {name: "all purpose flour", id: 20081, amountNeeded: 1.5},
+        {name: "baking soda", id: 18372, amountNeeded: 0.5}
+      ];
+      expect(user.createShoppingListForRecipe(recipe1)).to.deep.equal(expected)
+    })
+    it('should return an empty list if no ingredients are needed to cook a given meal based on what is in my pantry', () => {
+      expect(user.createShoppingListForRecipe(recipe2)).to.deep.equal([])
+    })
+  });
+
+  describe('calculateShoppingListCost', function() {
+    it('should determine the total cost of ingredients needed to cook a recipe', () => {
+      expect(user.calculateShoppingListCost(recipe1, ingredientsDataTest1)).to.equal('$5.04')
+    })
+    it('should return $0.00 if no ingredients are needed to cook a given meal based on what is in my pantry', () => {
+      expect(user.calculateShoppingListCost(recipe2)).to.equal('$0.00')
+    })
+  });
+
+  describe('removeIngredientsFromPantry', function() {
+    it('should remove the ingredient amount from the pantry that was needed to cook a recipe', () => {
+      const expectedPantry = [
+        {
+          "ingredient": 93820,
+          "amount": 1
+        },
+        {
+          "ingredient": 11297,
+          "amount": 2.5
+        },
+        {
+          "ingredient": 11547,
+          "amount": 5
+        },
+        {
+          "ingredient": 1082047,
+          "amount": 5
+        }];
+      user.decideToCook(recipe2);
+      expect(user.pantry).to.equal(expectedPantry);
+    })
   });
 });
