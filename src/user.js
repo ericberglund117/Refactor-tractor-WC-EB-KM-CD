@@ -82,6 +82,21 @@ class User {
     return `$${parseFloat((priceTotal).toFixed(2))}`
   };
 
+  updateCurrentUserPantry(id, ingredValue) {
+    let ingredMatch = this.pantry.find(ingredient => ingredient.ingredient === id)
+    if(!ingredMatch) {
+      this.pantry.push({ingredient: id, amount: 0})
+    }
+    this.pantry.forEach((ingredient, index) => {
+      if(ingredient.ingredient === id) {
+        ingredient.amount += +ingredValue
+      }
+      if(ingredient.amount <= 0) {
+        this.pantry.splice(index, 1)
+      };
+    })
+  }
+
   // removeIngredientsFromPantry(recipe) {
   //   console.log(this.recipesToCook[this.recipesToCook.length - 1].ingredients);
   //   console.log(this.pantry)
