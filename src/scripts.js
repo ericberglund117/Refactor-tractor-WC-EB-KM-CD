@@ -35,6 +35,8 @@ let ingredientsData;
 let recipeData;
 
 window.addEventListener("load", checkData);
+document.addEventListener('click', (e) => modifyIngredientCount(e));
+document.addEventListener('click', (e) => submitPantryChanges(e));
 // window.addEventListener("load", createCards);
 // window.addEventListener("load", findTags);
 // window.addEventListener("load", getUsers);
@@ -51,6 +53,7 @@ showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 modifyPantryBtn.addEventListener("click", displayModifyPantryForm);
 searchIngBtn.addEventListener("click", createPostForm);
+
 
 //-----fetch request---------
 function checkData() {
@@ -412,7 +415,7 @@ function findRecipesWithCheckedIngredients(selected) {
 }
 
 function displayModifyPantryForm() {
-  document.getElementById('post-to-pantry').style.display = 'block';
+  document.getElementById('post-to-pantry').style.display = 'flex';
 }
 
 function showPostForm() {
@@ -451,6 +454,15 @@ function displaySearchedIngreds(ingreds) {
     })
   };
 
+  function modifyIngredientCount(event) {
+    if (event.target && event.target.id === 'minus') {
+      subtractIngredientCount(event);
+    }
+    if (event.target && event.target.id === 'plus') {
+      addIngredientCount(event);
+    }
+  }
+
   function subtractIngredientCount(event) {
     let amount = event.target.nextSibling.nextSibling;
     amount.value--;
@@ -459,7 +471,23 @@ function displaySearchedIngreds(ingreds) {
   function addIngredientCount(event) {
     let amount = event.target.previousSibling.previousSibling	;
     amount.value++;
+    console.log(amount)
   };
+
+  function submitPantryChanges(event) {
+  if (event.target && event.target.id === 'save-changes-btn') {
+    let amounts = Array.from(document.querySelectorAll('.amount'));
+    amounts.forEach(amount => {
+      if (amount.value && amount.value !== 0) {
+        let ingredID = amount.parentNode.parentNode.id;
+        let ingredMod = amount.value;
+        console.log('id', ingredID, 'value', ingredMod)
+        currentUser.updateCurrentUserPantry(ingredID, ingredMod);
+      }
+    })
+  }
+}
+
 
 // function removePantryIngredients(itemToRemove)
 //   let letIte
