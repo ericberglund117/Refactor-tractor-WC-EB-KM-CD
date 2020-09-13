@@ -22,7 +22,6 @@ let searchBtn = document.querySelector(".search-btn");
 let searchForm = document.querySelector("#search");
 let searchInput = document.querySelector("#search-input");
 let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
-let tagList = document.querySelector(".tag-list");
 let modifyPantryBtn = document.querySelector(".modify-pantry-btn")
 let searchIngBtn = document.querySelector(".search-ingredients-btn")
 
@@ -124,22 +123,7 @@ function findTags(recipeData) {
     });
   });
   tags.sort();
-  listTags(tags);
-}
-
-function listTags(allTags) {
-  allTags.forEach(tag => {
-    let tagHtml = `<li><input type="checkbox" class="checked-tag" id="${tag}">
-      <label for="${tag}">${capitalize(tag)}</label></li>`;
-    tagList.insertAdjacentHTML("beforeend", tagHtml);
-  });
-}
-
-function capitalize(words) {
-  console.log(typeof words);
-  return words.split(" ").map(word => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(" ");
+  domUpdates.listTags(tags);
 }
 
 function findCheckedBoxes() {
@@ -250,10 +234,9 @@ function addRecipeImage(recipe) {
 }
 
 function generateIngredients(recipe) {
-  console.log(ingredientsData);
   return recipe && recipe.ingredients.map(ingredient => {
     let ingredientInfo = ingredientsData.find(dataIng => dataIng.id === ingredient.id);
-    return `${capitalize(ingredientInfo.name)} (${ingredient.quantity.amount} ${ingredient.quantity.unit})`
+    return `${domUpdates.capitalize(ingredientInfo.name)} (${ingredient.quantity.amount} ${ingredient.quantity.unit})`
   }).join(", ");
 }
 
