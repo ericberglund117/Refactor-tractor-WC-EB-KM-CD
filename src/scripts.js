@@ -9,6 +9,7 @@ import './images/search.png';
 import './images/cookbook.png';
 import User from './user';
 import Recipe from './recipe';
+import domUpdates from './domUpdates';
 
 // ************ QUERY SELECTORS ***************
 let allRecipesBtn = document.querySelector(".show-all-btn");
@@ -84,26 +85,17 @@ function getRecipes() {
 }
 
 function loadPageInfo(allData) {
-  allUsersData = allData[0]
-  ingredientsData = allData[1]
-  recipeData = allData[2]
-  generateUser(allUsersData)
-  findPantryInfo(ingredientsData)
-  findTags(recipeData)
-  createCards(recipeData)
+  allUsersData = allData[0];
+  ingredientsData = allData[1];
+  recipeData = allData[2];
+  currentUser = new User(allUsersData[Math.floor(Math.random() * allUsersData.length)]);
+  domUpdates.generateUser(currentUser);
+  findPantryInfo(ingredientsData);
+  findTags(recipeData);
+  createCards(recipeData);
 }
 
-// GENERATE A USER ON LOAD
-function generateUser(allUsersData) {
-  currentUser = new User(allUsersData[Math.floor(Math.random() * allUsersData.length)]);
-  let firstName = currentUser.name.split(" ")[0];
-  let welcomeMsg = `
-    <div class="welcome-msg">
-      <h1>Welcome ${firstName}!</h1>
-    </div>`;
-  document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
-    welcomeMsg);
-}
+
 
 // CREATE RECIPE CARDS
 function createCards(recipeData) {
@@ -115,25 +107,11 @@ function createCards(recipeData) {
     if (recipeInfo.name.length > 40) {
       shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
     }
-    addToDom(recipeInfo, shortRecipeName)
+    domUpdates.displayCard(recipeInfo, shortRecipeName)
   });
 };
 
-function addToDom(recipeInfo, shortRecipeName) {
-  let cardHtml = `
-    <div class="recipe-card" id=${recipeInfo.id}>
-      <h3 maxlength="40">${shortRecipeName}</h3>
-      <div class="card-photo-container">
-        <img src=${recipeInfo.image} class="card-photo-preview" alt="${recipeInfo.name} recipe" title="${recipeInfo.name} recipe">
-        <div class="text">
-          <div>Click for Instructions</div>
-        </div>
-      </div>
-      <h4>${recipeInfo.tags[0]}</h4>
-      <img src="./images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
-    </div>`
-  main.insertAdjacentHTML("beforeend", cardHtml);
-}
+
 
 // FILTER BY RECIPE TAGS
 function findTags(recipeData) {
