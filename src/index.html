@@ -28,6 +28,7 @@
     <section class="drop-menu">
       <h2>My Pantry</h2>
       <button class="show-pantry-recipes-btn">What Can I Make?</button>
+      <button class="modify-pantry-btn">Modify Pantry</button>
       <ul class="pantry-list"></ul>
     </section>
     <aside>
@@ -44,6 +45,17 @@
       <section class="my-recipes-banner">
         <h1>My Recipes</h1>
         <button class="show-all-btn">Show All Recipes</button>
+      </section>
+      <section id="post-to-pantry">
+        <h3 id="modify-pantry-title">Modify Your Pantry</h3>
+        <form role="form" id="search-ingredients" role="search">
+          <input role="input" id="search-ingredients-input" type="text" autocomplete="off" placeholder="Search Ingredients..."></input>
+          <label for="search-ingredients-input" class="search-label"></label>
+          <button aria-label="search button" role="button" class="search-ingredients-btn" type="button" name="button"><img src="images/search.png" alt="search button" id="search-ingredients-icon" class="search-ingredients-btn"></button>
+        </form>
+        <section role="complementary" id="searched-ingredient-results">
+        </section>
+        <button role="button" id="save-changes-btn">Save Changes and Exit</button>
       </section>
     </main>
   </body>

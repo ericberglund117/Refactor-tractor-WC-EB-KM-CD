@@ -22,6 +22,8 @@ let searchForm = document.querySelector("#search");
 let searchInput = document.querySelector("#search-input");
 let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
 let tagList = document.querySelector(".tag-list");
+let modifyPantryBtn = document.querySelector(".modify-pantry-btn")
+let searchIngBtn = document.querySelector(".search-ingredients-btn")
 
 // ************ GLOBAL VARIABLES ***************
 let menuOpen = false;
@@ -33,6 +35,8 @@ let ingredientsData;
 let recipeData;
 
 window.addEventListener("load", checkData);
+document.addEventListener('click', (e) => modifyIngredientCount(e));
+document.addEventListener('click', (e) => submitPantryChanges(e));
 // window.addEventListener("load", createCards);
 // window.addEventListener("load", findTags);
 // window.addEventListener("load", getUsers);
@@ -47,6 +51,9 @@ savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
+modifyPantryBtn.addEventListener("click", displayModifyPantryForm);
+searchIngBtn.addEventListener("click", createPostForm);
+
 
 //-----fetch request---------
 function checkData() {
@@ -407,19 +414,100 @@ function findRecipesWithCheckedIngredients(selected) {
   })
 }
 
-// function removePantryIngredients(itemToRemove) {
-//   let letIte
-//   pantryInfo
-//   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(),
-//   })
-//     .then
-//
-//   })
-// }
+function displayModifyPantryForm() {
+  document.getElementById('post-to-pantry').style.display = 'flex';
+}
+
+function showPostForm() {
+  document.getElementById('searched-ingredient-results').innerHTML = '';
+  document.getElementById('search-ingredients-input').value = '';
+  document.getElementById('post-to-pantry').style.display = 'flex';
+}
+
+function searchPantry() {
+  const searchIngredientsInput = document.getElementById('search-ingredients-input');
+  const search = searchIngredientsInput.value.toLowerCase();
+  return ingredientsData.filter(ingred => ingred.name).filter(ingred => ingred.name.includes(search));
+}
+
+function createPostForm(event) {
+  if (event.target && event.target.classList.contains('search-ingredients-btn')) {
+    let ingredients = searchPantry();
+    displaySearchedIngreds(ingredients);
+  }
+}
+
+function displaySearchedIngreds(ingreds) {
+    let results = document.getElementById('searched-ingredient-results');
+    results.innerHTML = '';
+    ingreds.forEach(ingred => {
+      results.insertAdjacentHTML('afterbegin', `
+				<div class="searched-ingredient" id="${ingred.id}">
+					<div id="add-subtract">
+						<button id="minus">-</button>
+						<input class="amount" placeholder="value..." value=0>
+						<button id="plus">+</button>
+					</div>
+					<p id="ingred-name">${ingred.name}</p>
+				</div>
+			`);
+    })
+  };
+
+  function modifyIngredientCount(event) {
+    if (event.target && event.target.id === 'minus') {
+      subtractIngredientCount(event);
+    }
+    if (event.target && event.target.id === 'plus') {
+      addIngredientCount(event);
+    }
+  }
+
+  function subtractIngredientCount(event) {
+    let amount = event.target.nextSibling.nextSibling;
+    amount.value--;
+  };
+
+  function addIngredientCount(event) {
+    let amount = event.target.previousSibling.previousSibling	;
+    amount.value++;
+    console.log(amount)
+  };
+
+  function submitPantryChanges(event) {
+  if (event.target && event.target.id === 'save-changes-btn') {
+    let amounts = Array.from(document.querySelectorAll('.amount'));
+    amounts.forEach(amount => {
+      if (amount.value && amount.value !== 0) {
+        let ingredID = amount.parentNode.parentNode.id;
+        let ingredMod = amount.value;
+        console.log('id', ingredID, 'value', ingredMod)
+        if(ingredMod > 0 || ingredMod < 0){
+          currentUser.updateCurrentUserPantry(ingredID, ingredMod);
+          updatePantryIngredients(ingredID, ingredMod)
+        }
+      }
+    })
+  }
+}
+
+
+function updatePantryIngredients(ingredID, ingredMod) {
+  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "userID": currentUser.id,
+      "ingredientID": +ingredID,
+      "ingredientModification": +ingredMod
+    })
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.log(error))
+}
+
 //
 // function stockPantryIngredients
