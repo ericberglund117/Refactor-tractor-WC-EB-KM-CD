@@ -282,22 +282,12 @@ function createPostForm(event) {
 
   function modifyIngredientCount(event) {
     if (event.target && event.target.id === 'minus') {
-      subtractIngredientCount(event);
+      domUpdates.subtractIngredientCount(event);
     }
     if (event.target && event.target.id === 'plus') {
-      addIngredientCount(event);
+      domUpdates.addIngredientCount(event);
     }
   }
-
-  function subtractIngredientCount(event) {
-    let amount = event.target.nextSibling.nextSibling;
-    amount.value--;
-  };
-
-  function addIngredientCount(event) {
-    let amount = event.target.previousSibling.previousSibling	;
-    amount.value++;
-  };
 
   function submitPantryChanges(event) {
   if (event.target && event.target.id === 'save-changes-btn') {

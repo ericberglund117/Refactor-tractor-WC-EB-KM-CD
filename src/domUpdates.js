@@ -177,7 +177,16 @@ let domUpdates = {
   			`);
       })
     },
-    
+
+    subtractIngredientCount(event) {
+      let amount = event.target.nextSibling.nextSibling;
+      amount.value--;
+    },
+
+    addIngredientCount(event) {
+      let amount = event.target.previousSibling.previousSibling	;
+      amount.value++;
+    },
   // showPostForm() {
   //   document.getElementById('searched-ingredient-results').innerHTML = '';
   //   document.getElementById('search-ingredients-input').value = '';
