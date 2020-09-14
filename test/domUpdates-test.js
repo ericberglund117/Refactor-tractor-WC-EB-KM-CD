@@ -148,19 +148,52 @@ describe('domUpdates', function() {
     expect(domUpdates.showSavedRecipes).to.have.been.called.with(recipeData, currentUser);
   })
 
-  it('should display saved recipes', () => {
-    chai.spy.on(domUpdates, ['showSavedRecipes'], () => {});
+  it('should display recipe info', () => {
+    chai.spy.on(domUpdates, ['openRecipeInfo'], () => {});
 
-    domUpdates.showSavedRecipes(recipeData, currentUser);
+    domUpdates.openRecipeInfo(mockEvent, recipeData, ingredientsData);
 
-    expect(domUpdates.showSavedRecipes).to.have.been.called(1);
-    expect(domUpdates.showSavedRecipes).to.have.been.called.with(recipeData, currentUser);
+    expect(domUpdates.openRecipeInfo).to.have.been.called(1);
+    expect(domUpdates.openRecipeInfo).to.have.been.called.with(mockEvent, recipeData, ingredientsData);
   })
 
+  it('should display recipe title', () => {
+    chai.spy.on(domUpdates, ['generateRecipeTitle'], () => {});
+    let fullRecipeInfo = {}
 
+    domUpdates.generateRecipeTitle(recipeData, ingredientsData, fullRecipeInfo);
 
+    expect(domUpdates.generateRecipeTitle).to.have.been.called(1);
+    expect(domUpdates.generateRecipeTitle).to.have.been.called.with(recipeData, ingredientsData, fullRecipeInfo);
+  })
 
+  it('should display recipe image', () => {
+    chai.spy.on(domUpdates, ['addRecipeImage'], () => {});
 
+    domUpdates.addRecipeImage(recipeData);
+
+    expect(domUpdates.addRecipeImage).to.have.been.called(1);
+    expect(domUpdates.addRecipeImage).to.have.been.called.with(recipeData);
+  })
+
+  it('should display recipe instructions', () => {
+    chai.spy.on(domUpdates, ['displayInstructions'], () => {});
+    let fullRecipeInfo = {}
+
+    domUpdates.displayInstructions(recipeData, fullRecipeInfo);
+
+    expect(domUpdates.displayInstructions).to.have.been.called(1);
+    expect(domUpdates.displayInstructions).to.have.been.called.with(recipeData, fullRecipeInfo);
+  })
+
+  it('should display all recipes', () => {
+    chai.spy.on(domUpdates, ['showAllRecipes'], () => {});
+
+    domUpdates.showAllRecipes(recipeData);
+
+    expect(domUpdates.showAllRecipes).to.have.been.called(1);
+    expect(domUpdates.showAllRecipes).to.have.been.called.with(recipeData);
+  })
 
 
 

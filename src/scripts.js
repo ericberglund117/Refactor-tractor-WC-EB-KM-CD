@@ -150,7 +150,7 @@ function filterRecipes(filtered) {
 // FAVORITE RECIPE FUNCTIONALITY
 function addToFavorites(event) {
   console.log(event)
-  domUpdates.addToMyRecipes(event, currentUser);
+  domUpdates.addToMyRecipes(event, currentUser, recipeData, ingredientsData);
 }
 
 function getSavedRecipes() {
