@@ -187,6 +187,34 @@ let domUpdates = {
       let amount = event.target.previousSibling.previousSibling	;
       amount.value++;
     },
+
+    addToMyRecipes(event, currentUser) {
+      if (event.target.className === "card-apple-icon") {
+        let cardId = parseInt(event.target.closest(".recipe-card").id)
+        if (!currentUser.favoriteRecipes.includes(cardId)) {
+          event.target.src = "./images/apple-logo.png";
+          currentUser.saveRecipe(cardId);
+        } else {
+          event.target.src = "./images/apple-logo-outline.png";
+          currentUser.removeRecipe(cardId);
+        }
+      } else if (event.target.id === "exit-recipe-btn") {
+        this.exitRecipe();
+      } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
+        this.openRecipeInfo(event, recipeData, ingredientsData);
+      }
+    },
+
+    isDescendant(parent, child) {
+      let node = child;
+      while (node !== null) {
+        if (node === parent) {
+          return true;
+        }
+        node = node.parentNode;
+      }
+      return false;
+    },
   // showPostForm() {
   //   document.getElementById('searched-ingredient-results').innerHTML = '';
   //   document.getElementById('search-ingredients-input').value = '';

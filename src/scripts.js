@@ -19,16 +19,14 @@ let pantryBtn = document.querySelector(".my-pantry-btn");
 let savedRecipesBtn = document.querySelector(".saved-recipes-btn");
 let searchBtn = document.querySelector(".search-btn");
 let searchForm = document.querySelector("#search");
-
 let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
 let modifyPantryBtn = document.querySelector(".modify-pantry-btn")
-let searchIngBtn = document.querySelector(".search-ingredients-btn")
+let searchIngredientBtn = document.querySelector(".search-ingredients-btn")
 
 // ************ GLOBAL VARIABLES ***************
 
 let pantryInfo = [];
 let recipes = [];
-let allUsersData;
 let currentUser;
 let ingredientsData;
 let recipeData;
@@ -44,14 +42,14 @@ document.addEventListener('click', (e) => submitPantryChanges(e));
 // window.addEventListener("load", getRecipes);
 allRecipesBtn.addEventListener("click", showRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
-main.addEventListener("click", addToMyRecipes);
+main.addEventListener("click", addToFavorites);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", getSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 modifyPantryBtn.addEventListener("click", domUpdates.displayModifyPantryForm);
-searchIngBtn.addEventListener("click", createPostForm);
+searchIngredientBtn.addEventListener("click", createPostForm);
 
 
 //-----fetch request---------
@@ -83,7 +81,7 @@ function getRecipes() {
 }
 
 function loadPageInfo(allData) {
-  allUsersData = allData[0];
+  let allUsersData = allData[0];
   ingredientsData = allData[1];
   recipeData = allData[2];
   currentUser = new User(allUsersData[Math.floor(Math.random() * allUsersData.length)]);
@@ -155,32 +153,8 @@ function filterRecipes(filtered) {
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
-function addToMyRecipes(event) {
-  if (event.target.className === "card-apple-icon") {
-    let cardId = parseInt(event.target.closest(".recipe-card").id)
-    if (!currentUser.favoriteRecipes.includes(cardId)) {
-      event.target.src = "./images/apple-logo.png";
-      currentUser.saveRecipe(cardId);
-    } else {
-      event.target.src = "./images/apple-logo-outline.png";
-      currentUser.removeRecipe(cardId);
-    }
-  } else if (event.target.id === "exit-recipe-btn") {
-    domUpdates.exitRecipe();
-  } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
-    domUpdates.openRecipeInfo(event, recipeData, ingredientsData);
-  }
-}
-
-function isDescendant(parent, child) {
-  let node = child;
-  while (node !== null) {
-    if (node === parent) {
-      return true;
-    }
-    node = node.parentNode;
-  }
-  return false;
+function addToFavorites() {
+  domUpdates.addToMyRecipes(event, currentUser);
 }
 
 function getSavedRecipes() {
