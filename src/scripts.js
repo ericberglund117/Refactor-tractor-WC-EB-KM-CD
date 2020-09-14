@@ -220,8 +220,6 @@ function createRecipeObject(recipes) {
 
 // CREATE AND USE PANTRY
 function findPantryInfo(ingredientsData) {
-  // console.log(user.pantry)
-  // console.log(pantryInfo)
   let pantryMatch = currentUser.pantry.map(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
@@ -237,16 +235,7 @@ function findPantryInfo(ingredientsData) {
       pantryInfo.push({name: itemInfo.name, count: item.amount});
     }
   });
-  displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
-}
-
-function displayPantryInfo(pantry) {
-  pantry.forEach(ingredient => {
-    let ingredientHtml = `<li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
-      <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>`;
-    document.querySelector(".pantry-list").insertAdjacentHTML("beforeend",
-      ingredientHtml);
-  });
+  domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
 }
 
 function findCheckedPantryBoxes() {
@@ -335,7 +324,6 @@ function displaySearchedIngreds(ingreds) {
   function addIngredientCount(event) {
     let amount = event.target.previousSibling.previousSibling	;
     amount.value++;
-    console.log(amount)
   };
 
   function submitPantryChanges(event) {
@@ -345,7 +333,6 @@ function displaySearchedIngreds(ingreds) {
       if (amount.value && amount.value !== 0) {
         let ingredID = amount.parentNode.parentNode.id;
         let ingredMod = amount.value;
-        console.log('id', ingredID, 'value', ingredMod)
         if(ingredMod > 0 || ingredMod < 0){
           currentUser.updateCurrentUserPantry(ingredID, ingredMod);
           updatePantryIngredients(ingredID, ingredMod)

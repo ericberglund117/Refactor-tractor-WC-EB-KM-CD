@@ -41,7 +41,6 @@ let domUpdates = {
   },
 
   capitalize(words) {
-    console.log(typeof words);
     return words.split(" ").map(word => {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(" ");
@@ -140,14 +139,22 @@ let domUpdates = {
 
 //Search RECIPES
   toggleMenu() {
-    // let menuOpen = false;
     var menuDropdown = document.querySelector(".drop-menu");
-    // menuOpen = !menuOpen;
     if (menuDropdown.style.display === "none") {
       menuDropdown.style.display = "block";
     } else {
       menuDropdown.style.display = "none";
     }
+  },
+
+//Pantry Display
+  displayPantryInfo(pantry) {
+    pantry.forEach(ingredient => {
+      let ingredientHtml = `<li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
+        <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>`;
+      document.querySelector(".pantry-list").insertAdjacentHTML("beforeend",
+        ingredientHtml);
+    });
   }
 }
 
