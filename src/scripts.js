@@ -14,7 +14,6 @@ import domUpdates from './domUpdates';
 // ************ QUERY SELECTORS ***************
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector(".filter-btn");
-let fullRecipeInfo = document.querySelector(".recipe-instructions");
 let main = document.querySelector("main");
 let pantryBtn = document.querySelector(".my-pantry-btn");
 let savedRecipesBtn = document.querySelector(".saved-recipes-btn");
@@ -43,11 +42,11 @@ document.addEventListener('click', (e) => submitPantryChanges(e));
 //window.addEventListener("load", generateUser);
 // window.addEventListener("load", getIngredients);
 // window.addEventListener("load", getRecipes);
-allRecipesBtn.addEventListener("click", showAllRecipes);
+allRecipesBtn.addEventListener("click", domUpdates.showAllRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
 pantryBtn.addEventListener("click", toggleMenu);
-savedRecipesBtn.addEventListener("click", domUpdates.showSavedRecipes);
+savedRecipesBtn.addEventListener("click", getSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
@@ -169,9 +168,9 @@ function addToMyRecipes(event) {
       currentUser.removeRecipe(cardId);
     }
   } else if (event.target.id === "exit-recipe-btn") {
-    exitRecipe();
+    domUpdates.exitRecipe();
   } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
-    openRecipeInfo(event);
+    domUpdates.openRecipeInfo(event, recipeData, ingredientsData);
   }
 }
 
@@ -186,67 +185,9 @@ function isDescendant(parent, child) {
   return false;
 }
 
-// CREATE RECIPE INSTRUCTIONS
-function openRecipeInfo(event) {
-  fullRecipeInfo.style.display = "inline";
-  let recipeId = event.composedPath().find(e => e.id).id;
-  let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
-  // console.log("Captain Crusty", recipe);
-  // console.log("Uncle Billy", recipeData);
-  generateRecipeTitle(recipe, generateIngredients(recipe));
-  addRecipeImage(recipe);
-  generateInstructions(recipe);
-  fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
-}
-
-function generateRecipeTitle(recipe, ingredients) {
-  let recipeTitle = `
-    <button id="exit-recipe-btn">X</button>
-    <h3 id="recipe-title">${recipe.name}</h3>
-    <h4>Ingredients</h4>
-    <p>${ingredients}</p>`
-  fullRecipeInfo.insertAdjacentHTML("beforeend", recipeTitle);
-}
-
-function addRecipeImage(recipe) {
-  document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
-}
-
-function generateIngredients(recipe) {
-  return recipe && recipe.ingredients.map(ingredient => {
-    let ingredientInfo = ingredientsData.find(dataIng => dataIng.id === ingredient.id);
-    return `${domUpdates.capitalize(ingredientInfo.name)} (${ingredient.quantity.amount} ${ingredient.quantity.unit})`
-  }).join(", ");
-}
-
-function generateInstructions(recipe) {
-  let instructionsList = "";
-  let instructions = recipe.instructions.map(i => {
-    return i.instruction
-  });
-  instructions.forEach(i => {
-    instructionsList += `<li>${i}</li>`
-  });
-  fullRecipeInfo.insertAdjacentHTML("beforeend", "<h4>Instructions</h4>");
-  fullRecipeInfo.insertAdjacentHTML("beforeend", `<ol>${instructionsList}</ol>`);
-}
-
-function exitRecipe() {
-  while (fullRecipeInfo.firstChild &&
-    fullRecipeInfo.removeChild(fullRecipeInfo.firstChild));
-  fullRecipeInfo.style.display = "none";
-  document.getElementById("overlay").remove();
-}
-
-// TOGGLE DISPLAYS
-function showMyRecipesBanner() {
-  document.querySelector(".welcome-msg").style.display = "none";
-  document.querySelector(".my-recipes-banner").style.display = "block";
-}
-
-function showWelcomeBanner() {
-  document.querySelector(".welcome-msg").style.display = "flex";
-  document.querySelector(".my-recipes-banner").style.display = "none";
+function getSavedRecipes() {
+  // let recipes = currentUser.favoriteRecipes;
+  domUpdates.showSavedRecipes(recipeData, currentUser);
 }
 
 // SEARCH RECIPES
@@ -284,14 +225,6 @@ function toggleMenu() {
   } else {
     menuDropdown.style.display = "none";
   }
-}
-
-function showAllRecipes() {
-  recipes.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "block";
-  });
-  showWelcomeBanner();
 }
 
 // CREATE AND USE PANTRY
@@ -430,7 +363,6 @@ function displaySearchedIngreds(ingreds) {
     })
   }
 }
-
 
 function updatePantryIngredients(ingredID, ingredMod) {
   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', {
