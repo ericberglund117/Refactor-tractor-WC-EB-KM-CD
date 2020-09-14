@@ -109,6 +109,7 @@ function findTags(recipeData) {
     });
   });
   tags.sort();
+  console.log(tags);
   domUpdates.listTags(tags);
 }
 

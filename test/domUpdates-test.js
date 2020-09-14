@@ -111,5 +111,35 @@ describe('domUpdates', function() {
     expect(domUpdates.welcomeUser).to.have.been.called.with(currentUser);
   })
 
-  
+  it('should display a recipe card on the main page', () => {
+    chai.spy.on(domUpdates, ['displayCard'], () => {});
+
+    domUpdates.displayCard(recipeData, recipeData["name"]);
+
+    expect(domUpdates.displayCard).to.have.been.called(1);
+    expect(domUpdates.displayCard).to.have.been.called.with(recipeData, recipeData["name"]);
+  })
+
+  it('should display recipe type tags and check boxes', () => {
+    chai.spy.on(domUpdates, ['listTags'], () => {});
+
+    let tags = ["antipasti", "antipasto", "appetizer", "breakfast"]
+    domUpdates.listTags(tags);
+
+    expect(domUpdates.listTags).to.have.been.called(1);
+    expect(domUpdates.listTags).to.have.been.called.with(tags);
+  })
+
+  it('should hide any recipes that are not selected', () => {
+    chai.spy.on(domUpdates, ['hideUnselectedRecipes'], () => {});
+
+    domUpdates.hideUnselectedRecipes(recipeData);
+
+    expect(domUpdates.hideUnselectedRecipes).to.have.been.called(1);
+    expect(domUpdates.hideUnselectedRecipes).to.have.been.called.with(recipeData);
+  })
+
+
+
+
 })
