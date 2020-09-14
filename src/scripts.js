@@ -190,6 +190,7 @@ function getSavedRecipes() {
 function showRecipes() {
   domUpdates.showAllRecipes(recipeData);
 }
+
 // SEARCH RECIPES
 function pressEnterSearch(event) {
   event.preventDefault();
@@ -254,7 +255,7 @@ function findCheckedPantryBoxes() {
   let selectedIngredients = pantryCheckboxInfo.filter(box => {
     return box.checked;
   })
-  showAllRecipes(recipeData);
+  domUpdates.showAllRecipes(recipeData);
   if (selectedIngredients.length > 0) {
     findRecipesWithCheckedIngredients(selectedIngredients);
   }

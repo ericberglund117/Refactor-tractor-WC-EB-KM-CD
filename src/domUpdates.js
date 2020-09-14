@@ -140,10 +140,10 @@ let domUpdates = {
 
 //Search RECIPES
   toggleMenu() {
-    let menuOpen = false;
+    // let menuOpen = false;
     var menuDropdown = document.querySelector(".drop-menu");
-    menuOpen = !menuOpen;
-    if (menuOpen) {
+    // menuOpen = !menuOpen;
+    if (menuDropdown.style.display === "none") {
       menuDropdown.style.display = "block";
     } else {
       menuDropdown.style.display = "none";
