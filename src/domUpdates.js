@@ -1,6 +1,6 @@
 let domUpdates = {
   // GENERATE A USER ON LOAD
-  generateUser(currentUser) {
+  welcomeUser(currentUser) {
     let firstName = currentUser.name.split(" ")[0];
     let welcomeMsg = `
       <div class="welcome-msg">

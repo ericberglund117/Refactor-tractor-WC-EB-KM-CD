@@ -3,7 +3,6 @@ const chai = require('chai')
 const spies = require('chai-spies');
 chai.use(spies);
 import { expect } from 'chai';
-import
 import domUpdates from '../src/domUpdates';
 
 describe('domUpdates', function() {
@@ -104,6 +103,13 @@ describe('domUpdates', function() {
   });
 
   it('should display a welcome message', () => {
+    chai.spy.on(domUpdates, ['welcomeUser'], () => {});
 
+    domUpdates.welcomeUser(currentUser);
+
+    expect(domUpdates.welcomeUser).to.have.been.called(1);
+    expect(domUpdates.welcomeUser).to.have.been.called.with(currentUser);
   })
+
+  
 })
