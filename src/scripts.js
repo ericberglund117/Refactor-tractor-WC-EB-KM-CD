@@ -19,7 +19,7 @@ let pantryBtn = document.querySelector(".my-pantry-btn");
 let savedRecipesBtn = document.querySelector(".saved-recipes-btn");
 let searchBtn = document.querySelector(".search-btn");
 let searchForm = document.querySelector("#search");
-let searchInput = document.querySelector("#search-input");
+
 let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
 let modifyPantryBtn = document.querySelector(".modify-pantry-btn")
 let searchIngBtn = document.querySelector(".search-ingredients-btn")
@@ -198,6 +198,7 @@ function pressEnterSearch(event) {
 }
 
 function searchRecipes() {
+  let searchInput = document.querySelector("#search-input");
   domUpdates.showAllRecipes(recipeData);
   let searchedRecipes = recipeData.filter(recipe => {
     return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
