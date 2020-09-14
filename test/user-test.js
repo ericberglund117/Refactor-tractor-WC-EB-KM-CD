@@ -283,27 +283,32 @@ describe('User', function() {
     })
   });
 
-  describe('removeIngredientsFromPantry', function() {
+  describe('updateCurrentUserPantry', function() {
     it('should remove the ingredient amount from the pantry that was needed to cook a recipe', () => {
       const expectedPantry = [
-        {
-          "ingredient": 93820,
-          "amount": 1
-        },
-        {
-          "ingredient": 11297,
-          "amount": 2.5
-        },
-        {
-          "ingredient": 11547,
-          "amount": 5
-        },
-        {
-          "ingredient": 1082047,
-          "amount": 5
-        }];
-      user.decideToCook(recipe2);
-      expect(user.pantry).to.equal(expectedPantry);
+          {
+            "ingredient": 11477,
+            "amount": 2
+          },
+          {
+            "ingredient": 93820,
+            "amount": 1
+          },
+          {
+            "ingredient": 11297,
+            "amount": 2
+          },
+          {
+            "ingredient": 11547,
+            "amount": 5
+          },
+          {
+            "ingredient": 1082047,
+            "amount": 5
+          }];
+      user1.updateCurrentUserPantry(11477, 1)
+      user1.updateCurrentUserPantry(11297, -1)
+      expect(user1.pantry).to.deep.equal(expectedPantry);
     })
   });
 });
