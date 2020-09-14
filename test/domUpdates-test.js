@@ -139,6 +139,28 @@ describe('domUpdates', function() {
     expect(domUpdates.hideUnselectedRecipes).to.have.been.called.with(recipeData);
   })
 
+  it('should display saved recipes', () => {
+    chai.spy.on(domUpdates, ['showSavedRecipes'], () => {});
+
+    domUpdates.showSavedRecipes(recipeData, currentUser);
+
+    expect(domUpdates.showSavedRecipes).to.have.been.called(1);
+    expect(domUpdates.showSavedRecipes).to.have.been.called.with(recipeData, currentUser);
+  })
+
+  it('should display saved recipes', () => {
+    chai.spy.on(domUpdates, ['showSavedRecipes'], () => {});
+
+    domUpdates.showSavedRecipes(recipeData, currentUser);
+
+    expect(domUpdates.showSavedRecipes).to.have.been.called(1);
+    expect(domUpdates.showSavedRecipes).to.have.been.called.with(recipeData, currentUser);
+  })
+
+
+
+
+
 
 
 
