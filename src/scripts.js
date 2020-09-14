@@ -34,12 +34,6 @@ let recipeData;
 window.addEventListener("load", checkData);
 document.addEventListener('click', (e) => modifyIngredientCount(e));
 document.addEventListener('click', (e) => submitPantryChanges(e));
-// window.addEventListener("load", createCards);
-// window.addEventListener("load", findTags);
-// window.addEventListener("load", getUsers);
-//window.addEventListener("load", generateUser);
-// window.addEventListener("load", getIngredients);
-// window.addEventListener("load", getRecipes);
 allRecipesBtn.addEventListener("click", showRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToFavorites);
@@ -85,7 +79,7 @@ function loadPageInfo(allData) {
   ingredientsData = allData[1];
   recipeData = allData[2];
   currentUser = new User(allUsersData[Math.floor(Math.random() * allUsersData.length)]);
-  domUpdates.generateUser(currentUser);
+  domUpdates.welcomeUser(currentUser);
   findPantryInfo(ingredientsData);
   findTags(recipeData);
   createCards(recipeData);
@@ -115,6 +109,7 @@ function findTags(recipeData) {
     });
   });
   tags.sort();
+  console.log(tags);
   domUpdates.listTags(tags);
 }
 
@@ -153,8 +148,9 @@ function filterRecipes(filtered) {
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
-function addToFavorites() {
-  domUpdates.addToMyRecipes(event, currentUser);
+function addToFavorites(event) {
+  console.log(event)
+  domUpdates.addToMyRecipes(event, currentUser, recipeData, ingredientsData);
 }
 
 function getSavedRecipes() {

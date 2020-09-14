@@ -21,7 +21,7 @@ class User {
     if(recipe === undefined) {
       return undefined
     }
-    (this.determineIngredientsAvailable(recipe) ? this.recipesToCook.push(recipe) : this.createShoppingListForRecipe(recipe))
+    this.recipesToCook.push(recipe)
   };
 
   filterRecipes(type, recipeList) {
@@ -46,7 +46,7 @@ class User {
       if(match === undefined) {
         return false
       }
-      recipeIng.quantity.amount <= match.amount
+      return recipeIng.quantity.amount <= match.amount
     })
   };
 

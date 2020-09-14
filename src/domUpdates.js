@@ -1,6 +1,6 @@
 let domUpdates = {
   // GENERATE A USER ON LOAD
-  generateUser(currentUser) {
+  welcomeUser(currentUser) {
     let firstName = currentUser.name.split(" ")[0];
     let welcomeMsg = `
       <div class="welcome-msg">
@@ -81,11 +81,12 @@ let domUpdates = {
   openRecipeInfo(event, recipeData, ingredientsData) {
     let fullRecipeInfo = document.querySelector(".recipe-instructions");
     fullRecipeInfo.style.display = "inline";
-    let recipeId = event.composedPath().find(e => e.id).id;
+    console.log(typeof fullRecipeInfo)
+    let recipeId = event.composedPath().find(event => event.id).id;
     let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
     this.generateRecipeTitle(recipe, this.generateIngredients(recipe, ingredientsData), fullRecipeInfo);
     this.addRecipeImage(recipe);
-    this.generateInstructions(recipe, fullRecipeInfo);
+    this.displayInstructions(recipe, fullRecipeInfo);
     fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
   },
 
@@ -109,7 +110,7 @@ let domUpdates = {
     }).join(", ");
   },
 
-  generateInstructions(recipe, fullRecipeInfo) {
+  displayInstructions(recipe, fullRecipeInfo) {
     let instructionsList = "";
     let instructions = recipe.instructions.map(i => {
       return i.instruction
@@ -188,7 +189,7 @@ let domUpdates = {
       amount.value++;
     },
 
-    addToMyRecipes(event, currentUser) {
+    addToMyRecipes(event, currentUser, recipeData, ingredientsData) {
       if (event.target.className === "card-apple-icon") {
         let cardId = parseInt(event.target.closest(".recipe-card").id)
         if (!currentUser.favoriteRecipes.includes(cardId)) {
@@ -200,7 +201,7 @@ let domUpdates = {
         }
       } else if (event.target.id === "exit-recipe-btn") {
         this.exitRecipe();
-      } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
+      } else if (this.isDescendant(event.target.closest(".recipe-card"), event.target)) {
         this.openRecipeInfo(event, recipeData, ingredientsData);
       }
     },
