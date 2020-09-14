@@ -276,26 +276,9 @@ function searchPantry() {
 function createPostForm(event) {
   if (event.target && event.target.classList.contains('search-ingredients-btn')) {
     let ingredients = searchPantry();
-    displaySearchedIngredients(ingredients);
+    domUpdates.displaySearchedIngredients(ingredients);
   }
 }
-
-function displaySearchedIngredients(ingredients) {
-    let results = document.getElementById('searched-ingredient-results');
-    results.innerHTML = '';
-    ingredients.forEach(ingredient => {
-      results.insertAdjacentHTML('afterbegin', `
-				<div class="searched-ingredient" id="${ingredient.id}">
-					<div id="add-subtract">
-						<button id="minus">-</button>
-						<input class="amount" placeholder="value..." value=0>
-						<button id="plus">+</button>
-					</div>
-					<p id="ingred-name">${ingredient.name}</p>
-				</div>
-			`);
-    })
-  };
 
   function modifyIngredientCount(event) {
     if (event.target && event.target.id === 'minus') {

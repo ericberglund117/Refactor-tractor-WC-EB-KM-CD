@@ -161,12 +161,29 @@ let domUpdates = {
     document.getElementById('post-to-pantry').style.display = 'flex';
   },
 
+  displaySearchedIngredients(ingredients) {
+      let results = document.getElementById('searched-ingredient-results');
+      results.innerHTML = '';
+      ingredients.forEach(ingredient => {
+        results.insertAdjacentHTML('afterbegin', `
+  				<div class="searched-ingredient" id="${ingredient.id}">
+  					<div id="add-subtract">
+  						<button id="minus">-</button>
+  						<input class="amount" placeholder="value..." value=0>
+  						<button id="plus">+</button>
+  					</div>
+  					<p id="ingred-name">${ingredient.name}</p>
+  				</div>
+  			`);
+      })
+    },
+    
   // showPostForm() {
   //   document.getElementById('searched-ingredient-results').innerHTML = '';
   //   document.getElementById('search-ingredients-input').value = '';
   //   document.getElementById('post-to-pantry').style.display = 'flex';
   // },
-  
+
 }
 
 
