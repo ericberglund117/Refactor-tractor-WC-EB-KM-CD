@@ -25,7 +25,7 @@ let modifyPantryBtn = document.querySelector(".modify-pantry-btn")
 let searchIngBtn = document.querySelector(".search-ingredients-btn")
 
 // ************ GLOBAL VARIABLES ***************
-let menuOpen = false;
+
 let pantryInfo = [];
 let recipes = [];
 let allUsersData;
@@ -42,10 +42,10 @@ document.addEventListener('click', (e) => submitPantryChanges(e));
 //window.addEventListener("load", generateUser);
 // window.addEventListener("load", getIngredients);
 // window.addEventListener("load", getRecipes);
-allRecipesBtn.addEventListener("click", domUpdates.showAllRecipes);
+allRecipesBtn.addEventListener("click", showRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
-pantryBtn.addEventListener("click", toggleMenu);
+pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", getSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
@@ -92,8 +92,6 @@ function loadPageInfo(allData) {
   findTags(recipeData);
   createCards(recipeData);
 }
-
-
 
 // CREATE RECIPE CARDS
 function createCards(recipeData) {
@@ -143,7 +141,7 @@ function findTaggedRecipes(selected) {
       }
     })
   });
-  domUpdates.showAllRecipes();
+  domUpdates.showAllRecipes(recipeData);
   if (filteredResults.length > 0) {
     filterRecipes(filteredResults);
   }
@@ -189,6 +187,9 @@ function getSavedRecipes() {
   domUpdates.showSavedRecipes(recipeData, currentUser);
 }
 
+function showRecipes() {
+  domUpdates.showAllRecipes(recipeData);
+}
 // SEARCH RECIPES
 function pressEnterSearch(event) {
   event.preventDefault();
@@ -196,7 +197,7 @@ function pressEnterSearch(event) {
 }
 
 function searchRecipes() {
-  showAllRecipes();
+  domUpdates.showAllRecipes(recipeData);
   let searchedRecipes = recipeData.filter(recipe => {
     return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
   });
@@ -214,16 +215,6 @@ function filterNonSearched(filtered) {
 function createRecipeObject(recipes) {
   recipes = recipes.map(recipe => new Recipe(recipe));
   return recipes
-}
-
-function toggleMenu() {
-  var menuDropdown = document.querySelector(".drop-menu");
-  menuOpen = !menuOpen;
-  if (menuOpen) {
-    menuDropdown.style.display = "block";
-  } else {
-    menuDropdown.style.display = "none";
-  }
 }
 
 // CREATE AND USE PANTRY
@@ -263,7 +254,7 @@ function findCheckedPantryBoxes() {
   let selectedIngredients = pantryCheckboxInfo.filter(box => {
     return box.checked;
   })
-  showAllRecipes();
+  showAllRecipes(recipeData);
   if (selectedIngredients.length > 0) {
     findRecipesWithCheckedIngredients(selectedIngredients);
   }

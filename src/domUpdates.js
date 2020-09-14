@@ -130,14 +130,25 @@ let domUpdates = {
     document.getElementById("overlay").remove();
   },
 
-  showAllRecipes() {
-    recipes.forEach(recipe => {
+  showAllRecipes(recipeData) {
+    recipeData.forEach(recipe => {
       let domRecipe = document.getElementById(`${recipe.id}`);
       domRecipe.style.display = "block";
     });
     this.showWelcomeBanner();
   },
 
+//Search RECIPES
+  toggleMenu() {
+    let menuOpen = false;
+    var menuDropdown = document.querySelector(".drop-menu");
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      menuDropdown.style.display = "block";
+    } else {
+      menuDropdown.style.display = "none";
+    }
+  }
 }
 
 
