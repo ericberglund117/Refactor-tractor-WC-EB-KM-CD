@@ -143,7 +143,7 @@ function findTaggedRecipes(selected) {
       }
     })
   });
-  showAllRecipes();
+  domUpdates.showAllRecipes();
   if (filteredResults.length > 0) {
     filterRecipes(filteredResults);
   }
@@ -186,7 +186,6 @@ function isDescendant(parent, child) {
 }
 
 function getSavedRecipes() {
-  // let recipes = currentUser.favoriteRecipes;
   domUpdates.showSavedRecipes(recipeData, currentUser);
 }
 
@@ -209,7 +208,7 @@ function filterNonSearched(filtered) {
     let ids = filtered.map(f => f.id);
     return !ids.includes(recipe.id)
   })
-  hideUnselectedRecipes(found);
+  domUpdates.hideUnselectedRecipes(found);
 }
 
 function createRecipeObject(recipes) {

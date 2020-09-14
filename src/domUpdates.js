@@ -77,6 +77,7 @@ let domUpdates = {
     document.querySelector(".welcome-msg").style.display = "flex";
     document.querySelector(".my-recipes-banner").style.display = "none";
   },
+
   // CREATE RECIPE INSTRUCTIONS
   openRecipeInfo(event, recipeData, ingredientsData) {
     let fullRecipeInfo = document.querySelector(".recipe-instructions");
@@ -134,7 +135,7 @@ let domUpdates = {
       let domRecipe = document.getElementById(`${recipe.id}`);
       domRecipe.style.display = "block";
     });
-    showWelcomeBanner();
+    this.showWelcomeBanner();
   },
 
 }
