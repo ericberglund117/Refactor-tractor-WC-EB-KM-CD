@@ -50,7 +50,7 @@ savedRecipesBtn.addEventListener("click", getSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
-modifyPantryBtn.addEventListener("click", displayModifyPantryForm);
+modifyPantryBtn.addEventListener("click", domUpdates.displayModifyPantryForm);
 searchIngBtn.addEventListener("click", createPostForm);
 
 
@@ -267,16 +267,6 @@ function findRecipesWithCheckedIngredients(selected) {
   })
 }
 
-function displayModifyPantryForm() {
-  document.getElementById('post-to-pantry').style.display = 'flex';
-}
-
-function showPostForm() {
-  document.getElementById('searched-ingredient-results').innerHTML = '';
-  document.getElementById('search-ingredients-input').value = '';
-  document.getElementById('post-to-pantry').style.display = 'flex';
-}
-
 function searchPantry() {
   const searchIngredientsInput = document.getElementById('search-ingredients-input');
   const search = searchIngredientsInput.value.toLowerCase();
@@ -286,22 +276,22 @@ function searchPantry() {
 function createPostForm(event) {
   if (event.target && event.target.classList.contains('search-ingredients-btn')) {
     let ingredients = searchPantry();
-    displaySearchedIngreds(ingredients);
+    displaySearchedIngredients(ingredients);
   }
 }
 
-function displaySearchedIngreds(ingreds) {
+function displaySearchedIngredients(ingredients) {
     let results = document.getElementById('searched-ingredient-results');
     results.innerHTML = '';
-    ingreds.forEach(ingred => {
+    ingredients.forEach(ingredient => {
       results.insertAdjacentHTML('afterbegin', `
-				<div class="searched-ingredient" id="${ingred.id}">
+				<div class="searched-ingredient" id="${ingredient.id}">
 					<div id="add-subtract">
 						<button id="minus">-</button>
 						<input class="amount" placeholder="value..." value=0>
 						<button id="plus">+</button>
 					</div>
-					<p id="ingred-name">${ingred.name}</p>
+					<p id="ingred-name">${ingredient.name}</p>
 				</div>
 			`);
     })

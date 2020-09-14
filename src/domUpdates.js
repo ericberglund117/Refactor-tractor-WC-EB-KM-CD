@@ -155,7 +155,18 @@ let domUpdates = {
       document.querySelector(".pantry-list").insertAdjacentHTML("beforeend",
         ingredientHtml);
     });
-  }
+  },
+
+  displayModifyPantryForm() {
+    document.getElementById('post-to-pantry').style.display = 'flex';
+  },
+
+  // showPostForm() {
+  //   document.getElementById('searched-ingredient-results').innerHTML = '';
+  //   document.getElementById('search-ingredients-input').value = '';
+  //   document.getElementById('post-to-pantry').style.display = 'flex';
+  // },
+  
 }
 
 
