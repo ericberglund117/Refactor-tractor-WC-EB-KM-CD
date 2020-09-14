@@ -166,6 +166,7 @@ function showRecipes() {
 }
 
 // SEARCH RECIPES
+// The function below needs to be used for function that handles the ingredient search window
 function pressEnterSearch(event) {
   event.preventDefault();
   searchRecipes();
@@ -224,7 +225,7 @@ function findCheckedPantryBoxes() {
     findRecipesWithCheckedIngredients(selectedIngredients);
   }
 }
-
+//We can improve the function below if we make it look for recipes that include only one checked item, so we can get multiple recipes that call for a specific ingredient.
 function findRecipesWithCheckedIngredients(selected) {
   let recipeChecker = (arr, target) => target.every(v => arr.includes(v));
   let ingredientNames = selected.map(item => {
@@ -236,8 +237,7 @@ function findRecipesWithCheckedIngredients(selected) {
       allRecipeIngredients.push(ingredient.name);
     });
     if (!recipeChecker(allRecipeIngredients, ingredientNames)) {
-      let domRecipe = document.getElementById(`${recipe.id}`);
-      domRecipe.style.display = "none";
+      domUpdates.hideUncheckedRecipe(recipe);
     }
   })
 }
@@ -255,16 +255,16 @@ function createPostForm(event) {
   }
 }
 
-  function modifyIngredientCount(event) {
-    if (event.target && event.target.id === 'minus') {
-      domUpdates.subtractIngredientCount(event);
-    }
-    if (event.target && event.target.id === 'plus') {
-      domUpdates.addIngredientCount(event);
-    }
+function modifyIngredientCount(event) {
+  if (event.target && event.target.id === 'minus') {
+    domUpdates.subtractIngredientCount(event);
   }
+  if (event.target && event.target.id === 'plus') {
+    domUpdates.addIngredientCount(event);
+  }
+}
 
-  function submitPantryChanges(event) {
+function submitPantryChanges(event) {
   if (event.target && event.target.id === 'save-changes-btn') {
     let amounts = Array.from(document.querySelectorAll('.amount'));
     amounts.forEach(amount => {
@@ -296,6 +296,3 @@ function updatePantryIngredients(ingredID, ingredMod) {
   .then(data => console.log(data))
   .catch(error => console.log(error))
 }
-
-//
-// function stockPantryIngredients

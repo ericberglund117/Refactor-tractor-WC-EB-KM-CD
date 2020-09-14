@@ -215,6 +215,11 @@ let domUpdates = {
       }
       return false;
     },
+
+    hideUncheckedRecipe(recipe) {
+      let domRecipe = document.getElementById(`${recipe.id}`);
+      domRecipe.style.display = "none";
+    }
   // showPostForm() {
   //   document.getElementById('searched-ingredient-results').innerHTML = '';
   //   document.getElementById('search-ingredients-input').value = '';
@@ -222,7 +227,5 @@ let domUpdates = {
   // },
 
 }
-
-
 
 export default domUpdates;
