@@ -195,6 +195,57 @@ describe('domUpdates', function() {
     expect(domUpdates.showAllRecipes).to.have.been.called.with(recipeData);
   })
 
+  it('should display pantry info', () => {
+    chai.spy.on(domUpdates, ['displayPantryInfo'], () => {});
 
+    domUpdates.displayPantryInfo(currentUser.pantry);
 
+    expect(domUpdates.displayPantryInfo).to.have.been.called(1);
+    expect(domUpdates.displayPantryInfo).to.have.been.called.with(currentUser.pantry);
+  })
+
+  it('should display searched ingredients', () => {
+    chai.spy.on(domUpdates, ['displaySearchedIngredients'], () => {});
+
+    domUpdates.displaySearchedIngredients(ingredientsData);
+
+    expect(domUpdates.displaySearchedIngredients).to.have.been.called(1);
+    expect(domUpdates.displaySearchedIngredients).to.have.been.called.with(ingredientsData);
+  })
+
+  it('should display negative ingredient increment', () => {
+    chai.spy.on(domUpdates, ['subtractIngredientCount'], () => {});
+
+    domUpdates.subtractIngredientCount(mockEvent);
+
+    expect(domUpdates.subtractIngredientCount).to.have.been.called(1);
+    expect(domUpdates.subtractIngredientCount).to.have.been.called.with(mockEvent);
+  })
+
+  it('should display positive ingredient increment', () => {
+    chai.spy.on(domUpdates, ['addIngredientCount'], () => {});
+
+    domUpdates.addIngredientCount(mockEvent);
+
+    expect(domUpdates.addIngredientCount).to.have.been.called(1);
+    expect(domUpdates.addIngredientCount).to.have.been.called.with(mockEvent);
+  })
+
+  it('should display favorited icon status', () => {
+    chai.spy.on(domUpdates, ['addToMyRecipes'], () => {});
+
+    domUpdates.addToMyRecipes(mockEvent, currentUser, recipeData, ingredientsData);
+
+    expect(domUpdates.addToMyRecipes).to.have.been.called(1);
+    expect(domUpdates.addToMyRecipes).to.have.been.called.with(mockEvent, currentUser, recipeData, ingredientsData);
+  })
+
+  it('should hide unchecked recipes', () => {
+    chai.spy.on(domUpdates, ['hideUncheckedRecipe'], () => {});
+
+    domUpdates.hideUncheckedRecipe(recipeData);
+
+    expect(domUpdates.hideUncheckedRecipe).to.have.been.called(1);
+    expect(domUpdates.hideUncheckedRecipe).to.have.been.called.with(recipeData);
+  })
 })
