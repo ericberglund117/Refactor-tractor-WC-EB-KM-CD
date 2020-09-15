@@ -191,6 +191,7 @@ function createRecipeObject(recipes) {
 
 // CREATE AND USE PANTRY
 function findPantryInfo(ingredientsData) {
+  // it is going through the user pantry
   let pantryMatch = currentUser.pantry.map(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
@@ -206,6 +207,7 @@ function findPantryInfo(ingredientsData) {
       pantryInfo.push({name: itemInfo.name, count: item.amount});
     }
   });
+  console.log(pantryMatch);
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
 }
 
@@ -280,9 +282,13 @@ function submitPantryChanges(event) {
         if (ingredMod > 0 || ingredMod < 0) {
           currentUser.updateCurrentUserPantry(ingredID, ingredMod);
           updatePantryIngredients(ingredID, ingredMod)
+          if(currentUser.pantry.includes(ingredID)) {
+            updatePantryIngredients(ingredID, ingredMod)
+          }
         }
       }
     })
+    domUpdates.hideModifyPantryForm();
   }
 }
 
@@ -299,6 +305,8 @@ function updatePantryIngredients(ingredID, ingredMod) {
     })
   })
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(data => findPantryInfo(data))
     .catch(error => console.log(error))
+    // .then(findPantryInfo(ingredientsData))
+    // .catch(error => console.log(error))
 }

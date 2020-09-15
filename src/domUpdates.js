@@ -156,6 +156,11 @@ let domUpdates = {
     document.getElementById('post-to-pantry').style.display = 'flex';
   },
 
+  hideModifyPantryForm() {
+    document.getElementById('post-to-pantry').style.display = 'none';
+  },
+
+
   displaySearchedIngredients(ingredients) {
     let results = document.getElementById('searched-ingredient-results');
     results.innerHTML = '';
