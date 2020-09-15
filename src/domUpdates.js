@@ -11,7 +11,6 @@ let domUpdates = {
   },
 
   // Create Recipe Cards
-
   displayCard(recipeInfo, shortRecipeName) {
     let main = document.querySelector("main");
     let cardHtml = `
@@ -29,8 +28,7 @@ let domUpdates = {
     main.insertAdjacentHTML("beforeend", cardHtml);
   },
 
-// FILTER BY RECIPE TAGS
-
+  // FILTER BY RECIPE TAGS
   listTags(allTags) {
     let tagList = document.querySelector(".tag-list");
     allTags.forEach(tag => {
@@ -53,8 +51,7 @@ let domUpdates = {
     });
   },
 
-// FAVORITE RECIPE FUNCTIONALITY
-
+  // FAVORITE RECIPE FUNCTIONALITY
   showSavedRecipes(recipeData, user) {
     let unsavedRecipes = recipeData.filter(recipe => {
       return !user.favoriteRecipes.includes(recipe.id);
@@ -66,7 +63,7 @@ let domUpdates = {
     this.showMyRecipesBanner();
   },
 
-// TOGGLE DISPLAYS
+  // TOGGLE DISPLAYS
   showMyRecipesBanner() {
     document.querySelector(".welcome-msg").style.display = "none";
     document.querySelector(".my-recipes-banner").style.display = "block";
@@ -81,7 +78,6 @@ let domUpdates = {
   openRecipeInfo(event, recipeData, ingredientsData) {
     let fullRecipeInfo = document.querySelector(".recipe-instructions");
     fullRecipeInfo.style.display = "inline";
-    console.log(typeof fullRecipeInfo)
     let recipeId = event.composedPath().find(event => event.id).id;
     let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
     this.generateRecipeTitle(recipe, this.generateIngredients(recipe, ingredientsData), fullRecipeInfo);
@@ -124,8 +120,6 @@ let domUpdates = {
 
   exitRecipe() {
     let fullRecipeInfo = document.querySelector(".recipe-instructions");
-    while (fullRecipeInfo.firstChild &&
-      fullRecipeInfo.removeChild(fullRecipeInfo.firstChild));
     fullRecipeInfo.style.display = "none";
     document.getElementById("overlay").remove();
   },
@@ -138,7 +132,7 @@ let domUpdates = {
     this.showWelcomeBanner();
   },
 
-//Search RECIPES
+  // Search RECIPES
   toggleMenu() {
     var menuDropdown = document.querySelector(".drop-menu");
     if (menuDropdown.style.display === "none") {
@@ -148,7 +142,7 @@ let domUpdates = {
     }
   },
 
-//Pantry Display
+  //Pantry Display
   displayPantryInfo(pantry) {
     pantry.forEach(ingredient => {
       let ingredientHtml = `<li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
@@ -163,70 +157,64 @@ let domUpdates = {
   },
 
   displaySearchedIngredients(ingredients) {
-      let results = document.getElementById('searched-ingredient-results');
-      results.innerHTML = '';
-      ingredients.forEach(ingredient => {
-        results.insertAdjacentHTML('afterbegin', `
-  				<div class="searched-ingredient" id="${ingredient.id}">
-  					<div id="add-subtract">
-  						<button id="minus">-</button>
-  						<input class="amount" placeholder="value..." value=0>
-  						<button id="plus">+</button>
-  					</div>
-  					<p id="ingred-name">${ingredient.name}</p>
-  				</div>
-  			`);
-      })
-    },
+    let results = document.getElementById('searched-ingredient-results');
+    results.innerHTML = '';
+    ingredients.forEach(ingredient => {
+      results.insertAdjacentHTML('afterbegin', `
+				<div class="searched-ingredient" id="${ingredient.id}">
+					<div id="add-subtract">
+						<button id="minus">-</button>
+						<input class="amount" placeholder="value..." value=0>
+						<button id="plus">+</button>
+					</div>
+					<p id="ingred-name">${ingredient.name}</p>
+				</div>
+			`);
+    })
+  },
 
-    subtractIngredientCount(event) {
-      let amount = event.target.nextSibling.nextSibling;
-      amount.value--;
-    },
+  subtractIngredientCount(event) {
+    let amount = event.target.nextSibling.nextSibling;
+    amount.value--;
+  },
 
-    addIngredientCount(event) {
-      let amount = event.target.previousSibling.previousSibling	;
-      amount.value++;
-    },
+  addIngredientCount(event) {
+    let amount = event.target.previousSibling.previousSibling;
+    amount.value++;
+  },
 
-    addToMyRecipes(event, currentUser, recipeData, ingredientsData) {
-      if (event.target.className === "card-apple-icon") {
-        let cardId = parseInt(event.target.closest(".recipe-card").id)
-        if (!currentUser.favoriteRecipes.includes(cardId)) {
-          event.target.src = "./images/apple-logo.png";
-          currentUser.saveRecipe(cardId);
-        } else {
-          event.target.src = "./images/apple-logo-outline.png";
-          currentUser.removeRecipe(cardId);
-        }
-      } else if (event.target.id === "exit-recipe-btn") {
-        this.exitRecipe();
-      } else if (this.isDescendant(event.target.closest(".recipe-card"), event.target)) {
-        this.openRecipeInfo(event, recipeData, ingredientsData);
+  addToMyRecipes(event, currentUser, recipeData, ingredientsData) {
+    if (event.target.className === "card-apple-icon") {
+      let cardId = parseInt(event.target.closest(".recipe-card").id)
+      if (!currentUser.favoriteRecipes.includes(cardId)) {
+        event.target.src = "./images/apple-logo.png";
+        currentUser.saveRecipe(cardId);
+      } else {
+        event.target.src = "./images/apple-logo-outline.png";
+        currentUser.removeRecipe(cardId);
       }
-    },
-
-    isDescendant(parent, child) {
-      let node = child;
-      while (node !== null) {
-        if (node === parent) {
-          return true;
-        }
-        node = node.parentNode;
-      }
-      return false;
-    },
-
-    hideUncheckedRecipe(recipe) {
-      let domRecipe = document.getElementById(`${recipe.id}`);
-      domRecipe.style.display = "none";
+    } else if (event.target.id === "exit-recipe-btn") {
+      this.exitRecipe();
+    } else if (this.isDescendant(event.target.closest(".recipe-card"), event.target)) {
+      this.openRecipeInfo(event, recipeData, ingredientsData);
     }
-  // showPostForm() {
-  //   document.getElementById('searched-ingredient-results').innerHTML = '';
-  //   document.getElementById('search-ingredients-input').value = '';
-  //   document.getElementById('post-to-pantry').style.display = 'flex';
-  // },
+  },
 
+  isDescendant(parent, child) {
+    let node = child;
+    while (node !== null) {
+      if (node === parent) {
+        return true;
+      }
+      node = node.parentNode;
+    }
+    return false;
+  },
+
+  hideUncheckedRecipe(recipe) {
+    let domRecipe = document.getElementById(`${recipe.id}`);
+    domRecipe.style.display = "none";
+  }
 }
 
 export default domUpdates;
