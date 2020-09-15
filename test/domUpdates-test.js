@@ -1,4 +1,3 @@
-
 const chai = require('chai')
 const spies = require('chai-spies');
 chai.use(spies);
@@ -102,150 +101,162 @@ describe('domUpdates', function() {
     chai.spy.restore(domUpdates);
   });
 
-  it('should display a welcome message', () => {
-    chai.spy.on(domUpdates, ['welcomeUser'], () => {});
+  describe('Generate User on Load', function() {
+    it('should display a welcome message', () => {
+      chai.spy.on(domUpdates, ['welcomeUser'], () => {});
 
-    domUpdates.welcomeUser(currentUser);
+      domUpdates.welcomeUser(currentUser);
 
-    expect(domUpdates.welcomeUser).to.have.been.called(1);
-    expect(domUpdates.welcomeUser).to.have.been.called.with(currentUser);
-  })
+      expect(domUpdates.welcomeUser).to.have.been.called(1);
+      expect(domUpdates.welcomeUser).to.have.been.called.with(currentUser);
+    });
+  });
 
-  it('should display a recipe card on the main page', () => {
-    chai.spy.on(domUpdates, ['displayCard'], () => {});
+  describe('Create Recipe Cards', function() {
+    it('should display a recipe card on the main page', () => {
+      chai.spy.on(domUpdates, ['displayCard'], () => {});
 
-    domUpdates.displayCard(recipeData, recipeData["name"]);
+      domUpdates.displayCard(recipeData, recipeData["name"]);
 
-    expect(domUpdates.displayCard).to.have.been.called(1);
-    expect(domUpdates.displayCard).to.have.been.called.with(recipeData, recipeData["name"]);
-  })
+      expect(domUpdates.displayCard).to.have.been.called(1);
+      expect(domUpdates.displayCard).to.have.been.called.with(recipeData, recipeData["name"]);
+    });
+  });
 
-  it('should display recipe type tags and check boxes', () => {
-    chai.spy.on(domUpdates, ['listTags'], () => {});
+  describe('Filter By Recipe Tags', function() {
+    it('should display recipe type tags and check boxes', () => {
+      chai.spy.on(domUpdates, ['listTags'], () => {});
 
-    let tags = ["antipasti", "antipasto", "appetizer", "breakfast"]
-    domUpdates.listTags(tags);
+      let tags = ["antipasti", "antipasto", "appetizer", "breakfast"]
+      domUpdates.listTags(tags);
 
-    expect(domUpdates.listTags).to.have.been.called(1);
-    expect(domUpdates.listTags).to.have.been.called.with(tags);
-  })
+      expect(domUpdates.listTags).to.have.been.called(1);
+      expect(domUpdates.listTags).to.have.been.called.with(tags);
+    });
 
-  it('should hide any recipes that are not selected', () => {
-    chai.spy.on(domUpdates, ['hideUnselectedRecipes'], () => {});
+    it('should hide any recipes that are not selected', () => {
+      chai.spy.on(domUpdates, ['hideUnselectedRecipes'], () => {});
 
-    domUpdates.hideUnselectedRecipes(recipeData);
+      domUpdates.hideUnselectedRecipes(recipeData);
 
-    expect(domUpdates.hideUnselectedRecipes).to.have.been.called(1);
-    expect(domUpdates.hideUnselectedRecipes).to.have.been.called.with(recipeData);
-  })
+      expect(domUpdates.hideUnselectedRecipes).to.have.been.called(1);
+      expect(domUpdates.hideUnselectedRecipes).to.have.been.called.with(recipeData);
+    });
+  });
 
-  it('should display saved recipes', () => {
-    chai.spy.on(domUpdates, ['showSavedRecipes'], () => {});
+  describe('Favorite Recipe Functions', function() {
+    it('should display saved recipes', () => {
+      chai.spy.on(domUpdates, ['showSavedRecipes'], () => {});
 
-    domUpdates.showSavedRecipes(recipeData, currentUser);
+      domUpdates.showSavedRecipes(recipeData, currentUser);
 
-    expect(domUpdates.showSavedRecipes).to.have.been.called(1);
-    expect(domUpdates.showSavedRecipes).to.have.been.called.with(recipeData, currentUser);
-  })
+      expect(domUpdates.showSavedRecipes).to.have.been.called(1);
+      expect(domUpdates.showSavedRecipes).to.have.been.called.with(recipeData, currentUser);
+    });
+  });
 
-  it('should display recipe info', () => {
-    chai.spy.on(domUpdates, ['openRecipeInfo'], () => {});
+  describe('Create Recipe Instructions', function() {
+    it('should display recipe info', () => {
+      chai.spy.on(domUpdates, ['openRecipeInfo'], () => {});
 
-    domUpdates.openRecipeInfo(mockEvent, recipeData, ingredientsData);
+      domUpdates.openRecipeInfo(mockEvent, recipeData, ingredientsData);
 
-    expect(domUpdates.openRecipeInfo).to.have.been.called(1);
-    expect(domUpdates.openRecipeInfo).to.have.been.called.with(mockEvent, recipeData, ingredientsData);
-  })
+      expect(domUpdates.openRecipeInfo).to.have.been.called(1);
+      expect(domUpdates.openRecipeInfo).to.have.been.called.with(mockEvent, recipeData, ingredientsData);
+    });
 
-  it('should display recipe title', () => {
-    chai.spy.on(domUpdates, ['generateRecipeTitle'], () => {});
-    let fullRecipeInfo = {}
+    it('should display recipe title', () => {
+      chai.spy.on(domUpdates, ['generateRecipeTitle'], () => {});
+      let fullRecipeInfo = {}
 
-    domUpdates.generateRecipeTitle(recipeData, ingredientsData, fullRecipeInfo);
+      domUpdates.generateRecipeTitle(recipeData, ingredientsData, fullRecipeInfo);
 
-    expect(domUpdates.generateRecipeTitle).to.have.been.called(1);
-    expect(domUpdates.generateRecipeTitle).to.have.been.called.with(recipeData, ingredientsData, fullRecipeInfo);
-  })
+      expect(domUpdates.generateRecipeTitle).to.have.been.called(1);
+      expect(domUpdates.generateRecipeTitle).to.have.been.called.with(recipeData, ingredientsData, fullRecipeInfo);
+    });
 
-  it('should display recipe image', () => {
-    chai.spy.on(domUpdates, ['addRecipeImage'], () => {});
+    it('should display recipe image', () => {
+      chai.spy.on(domUpdates, ['addRecipeImage'], () => {});
 
-    domUpdates.addRecipeImage(recipeData);
+      domUpdates.addRecipeImage(recipeData);
 
-    expect(domUpdates.addRecipeImage).to.have.been.called(1);
-    expect(domUpdates.addRecipeImage).to.have.been.called.with(recipeData);
-  })
+      expect(domUpdates.addRecipeImage).to.have.been.called(1);
+      expect(domUpdates.addRecipeImage).to.have.been.called.with(recipeData);
+    });
 
-  it('should display recipe instructions', () => {
-    chai.spy.on(domUpdates, ['displayInstructions'], () => {});
-    let fullRecipeInfo = {}
+    it('should display recipe instructions', () => {
+      chai.spy.on(domUpdates, ['displayInstructions'], () => {});
+      let fullRecipeInfo = {}
 
-    domUpdates.displayInstructions(recipeData, fullRecipeInfo);
+      domUpdates.displayInstructions(recipeData, fullRecipeInfo);
 
-    expect(domUpdates.displayInstructions).to.have.been.called(1);
-    expect(domUpdates.displayInstructions).to.have.been.called.with(recipeData, fullRecipeInfo);
-  })
+      expect(domUpdates.displayInstructions).to.have.been.called(1);
+      expect(domUpdates.displayInstructions).to.have.been.called.with(recipeData, fullRecipeInfo);
+    });
 
-  it('should display all recipes', () => {
-    chai.spy.on(domUpdates, ['showAllRecipes'], () => {});
+    it('should display all recipes', () => {
+      chai.spy.on(domUpdates, ['showAllRecipes'], () => {});
 
-    domUpdates.showAllRecipes(recipeData);
+      domUpdates.showAllRecipes(recipeData);
 
-    expect(domUpdates.showAllRecipes).to.have.been.called(1);
-    expect(domUpdates.showAllRecipes).to.have.been.called.with(recipeData);
-  })
+      expect(domUpdates.showAllRecipes).to.have.been.called(1);
+      expect(domUpdates.showAllRecipes).to.have.been.called.with(recipeData);
+    });
+  });
 
-  it('should display pantry info', () => {
-    chai.spy.on(domUpdates, ['displayPantryInfo'], () => {});
+  describe('Pantry Display Functions', function() {
+    it('should display pantry info', () => {
+      chai.spy.on(domUpdates, ['displayPantryInfo'], () => {});
 
-    domUpdates.displayPantryInfo(currentUser.pantry);
+      domUpdates.displayPantryInfo(currentUser.pantry);
 
-    expect(domUpdates.displayPantryInfo).to.have.been.called(1);
-    expect(domUpdates.displayPantryInfo).to.have.been.called.with(currentUser.pantry);
-  })
+      expect(domUpdates.displayPantryInfo).to.have.been.called(1);
+      expect(domUpdates.displayPantryInfo).to.have.been.called.with(currentUser.pantry);
+    });
 
-  it('should display searched ingredients', () => {
-    chai.spy.on(domUpdates, ['displaySearchedIngredients'], () => {});
+    it('should display searched ingredients', () => {
+      chai.spy.on(domUpdates, ['displaySearchedIngredients'], () => {});
 
-    domUpdates.displaySearchedIngredients(ingredientsData);
+      domUpdates.displaySearchedIngredients(ingredientsData);
 
-    expect(domUpdates.displaySearchedIngredients).to.have.been.called(1);
-    expect(domUpdates.displaySearchedIngredients).to.have.been.called.with(ingredientsData);
-  })
+      expect(domUpdates.displaySearchedIngredients).to.have.been.called(1);
+      expect(domUpdates.displaySearchedIngredients).to.have.been.called.with(ingredientsData);
+    });
 
-  it('should display negative ingredient increment', () => {
-    chai.spy.on(domUpdates, ['subtractIngredientCount'], () => {});
+    it('should display negative ingredient increment', () => {
+      chai.spy.on(domUpdates, ['subtractIngredientCount'], () => {});
 
-    domUpdates.subtractIngredientCount(mockEvent);
+      domUpdates.subtractIngredientCount(mockEvent);
 
-    expect(domUpdates.subtractIngredientCount).to.have.been.called(1);
-    expect(domUpdates.subtractIngredientCount).to.have.been.called.with(mockEvent);
-  })
+      expect(domUpdates.subtractIngredientCount).to.have.been.called(1);
+      expect(domUpdates.subtractIngredientCount).to.have.been.called.with(mockEvent);
+    });
 
-  it('should display positive ingredient increment', () => {
-    chai.spy.on(domUpdates, ['addIngredientCount'], () => {});
+    it('should display positive ingredient increment', () => {
+      chai.spy.on(domUpdates, ['addIngredientCount'], () => {});
 
-    domUpdates.addIngredientCount(mockEvent);
+      domUpdates.addIngredientCount(mockEvent);
 
-    expect(domUpdates.addIngredientCount).to.have.been.called(1);
-    expect(domUpdates.addIngredientCount).to.have.been.called.with(mockEvent);
-  })
+      expect(domUpdates.addIngredientCount).to.have.been.called(1);
+      expect(domUpdates.addIngredientCount).to.have.been.called.with(mockEvent);
+    });
 
-  it('should display favorited icon status', () => {
-    chai.spy.on(domUpdates, ['addToMyRecipes'], () => {});
+    it('should display favorited icon status', () => {
+      chai.spy.on(domUpdates, ['addToMyRecipes'], () => {});
 
-    domUpdates.addToMyRecipes(mockEvent, currentUser, recipeData, ingredientsData);
+      domUpdates.addToMyRecipes(mockEvent, currentUser, recipeData, ingredientsData);
 
-    expect(domUpdates.addToMyRecipes).to.have.been.called(1);
-    expect(domUpdates.addToMyRecipes).to.have.been.called.with(mockEvent, currentUser, recipeData, ingredientsData);
-  })
+      expect(domUpdates.addToMyRecipes).to.have.been.called(1);
+      expect(domUpdates.addToMyRecipes).to.have.been.called.with(mockEvent, currentUser, recipeData, ingredientsData);
+    });
 
-  it('should hide unchecked recipes', () => {
-    chai.spy.on(domUpdates, ['hideUncheckedRecipe'], () => {});
+    it('should hide unchecked recipes', () => {
+      chai.spy.on(domUpdates, ['hideUncheckedRecipe'], () => {});
 
-    domUpdates.hideUncheckedRecipe(recipeData);
+      domUpdates.hideUncheckedRecipe(recipeData);
 
-    expect(domUpdates.hideUncheckedRecipe).to.have.been.called(1);
-    expect(domUpdates.hideUncheckedRecipe).to.have.been.called.with(recipeData);
-  })
-})
+      expect(domUpdates.hideUncheckedRecipe).to.have.been.called(1);
+      expect(domUpdates.hideUncheckedRecipe).to.have.been.called.with(recipeData);
+    });
+  });
+});
