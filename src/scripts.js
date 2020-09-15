@@ -49,8 +49,8 @@ searchIngredientBtn.addEventListener("click", createPostForm);
 //-----fetch request---------
 function checkData() {
   Promise.all([getUsers(), getIngredients(), getRecipes()])
-  .then(data => loadPageInfo(data))
-  .catch(error => console.log(error))
+    .then(data => loadPageInfo(data))
+    .catch(error => console.log(error))
 }
 
 function getUsers() {
@@ -78,7 +78,8 @@ function loadPageInfo(allData) {
   let allUsersData = allData[0];
   ingredientsData = allData[1];
   recipeData = allData[2];
-  currentUser = new User(allUsersData[Math.floor(Math.random() * allUsersData.length)]);
+  currentUser = new User(allUsersData[Math.floor(Math.random()
+    * allUsersData.length)]);
   domUpdates.welcomeUser(currentUser);
   findPantryInfo(ingredientsData);
   findTags(recipeData);
@@ -96,7 +97,7 @@ function createCards(recipeData) {
     }
     domUpdates.displayCard(recipeInfo, shortRecipeName)
   });
-};
+}
 
 // FILTER BY RECIPE TAGS
 function findTags(recipeData) {
@@ -109,7 +110,6 @@ function findTags(recipeData) {
     });
   });
   tags.sort();
-  console.log(tags);
   domUpdates.listTags(tags);
 }
 
@@ -149,7 +149,6 @@ function filterRecipes(filtered) {
 
 // FAVORITE RECIPE FUNCTIONALITY
 function addToFavorites(event) {
-  console.log(event)
   domUpdates.addToMyRecipes(event, currentUser, recipeData, ingredientsData);
 }
 
@@ -267,7 +266,7 @@ function submitPantryChanges(event) {
       if (amount.value && amount.value !== 0) {
         let ingredID = amount.parentNode.parentNode.id;
         let ingredMod = amount.value;
-        if(ingredMod > 0 || ingredMod < 0){
+        if (ingredMod > 0 || ingredMod < 0) {
           currentUser.updateCurrentUserPantry(ingredID, ingredMod);
           updatePantryIngredients(ingredID, ingredMod)
         }
@@ -288,7 +287,7 @@ function updatePantryIngredients(ingredID, ingredMod) {
       "ingredientModification": +ingredMod
     })
   })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.log(error))
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
 }
