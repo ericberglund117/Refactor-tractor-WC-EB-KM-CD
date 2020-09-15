@@ -1,0 +1,11 @@
+@mixin buttons {
+  background-color: $recipe-font-color;
+  border: 0;
+  border-radius: 3px;
+  color: $primary-white-color;
+  cursor: pointer;
+  font-family: $default-body-font-family, sans-serif;
+  font-size: 12pt;
+  font-weight: bold;
+  padding: 5px 10px 5px 10px;
+};
