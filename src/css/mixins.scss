@@ -1,5 +1,5 @@
-@mixin buttons {
-  background-color: $recipe-font-color;
+@mixin buttons($background-color, $margin-top) {
+  background-color: $background-color;
   border: 0;
   border-radius: 3px;
   color: $primary-white-color;
@@ -8,4 +8,5 @@
   font-size: 12pt;
   font-weight: bold;
   padding: 5px 10px 5px 10px;
+  margin-top: $margin-top
 };

@@ -310,24 +310,18 @@ main {
 
 
 /* BUTTONS */
-.show-pantry-recipes-btn,
-.show-all-btn,
-.filter-btn {
-@include buttons
-}
-
 .show-pantry-recipes-btn {
-  margin-top: 10px;
+  @include buttons($recipe-font-color, 10px)
 }
 
 .show-all-btn {
+  @include buttons($recipe-font-color, 20px)
   height: 40px;
-  margin-top: 20px;
   width: 200px;
 }
 
 .filter-btn:hover {
-  background-color: $recipe-type-color;
+  @include buttons($recipe-type-color, 0px)
 }
 
 
@@ -458,10 +452,6 @@ main {
   box-shadow: none;
   padding: 1%;
   width: 20%;
-}
-
-#save-changes-btn {
-  justify-self: flex-end;
 }
 
 #search-ingredients-input {
