@@ -40,7 +40,7 @@ main.addEventListener("click", addToFavorites);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", getSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
-showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
+showPantryRecipes.addEventListener("click", determineCookableRecipes);
 searchForm.addEventListener("submit", pressEnterSearch);
 modifyPantryBtn.addEventListener("click", domUpdates.displayModifyPantryForm);
 searchIngredientBtn.addEventListener("click", createPostForm);
@@ -209,33 +209,44 @@ function findPantryInfo(ingredientsData) {
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
 }
 
-function findCheckedPantryBoxes() {
-  let pantryCheckboxes = document.querySelectorAll(".pantry-checkbox");
-  let pantryCheckboxInfo = Array.from(pantryCheckboxes)
-  let selectedIngredients = pantryCheckboxInfo.filter(box => {
-    return box.checked;
-  })
+// function findCheckedPantryBoxes() {
+// //   let pantryCheckboxes = document.querySelectorAll(".pantry-checkbox");
+// //   let pantryCheckboxInfo = Array.from(pantryCheckboxes)
+// //   let selectedIngredients = pantryCheckboxInfo.filter(box => {
+//     // return box.checked;
+//   // })
+//   domUpdates.showAllRecipes(recipeData);
+//   if (currentUser.pantry.length > 0) {
+//     findRecipesWithCheckedIngredients();
+//   }
+// }
+
+function determineCookableRecipes() {
   domUpdates.showAllRecipes(recipeData);
-  if (selectedIngredients.length > 0) {
-    findRecipesWithCheckedIngredients(selectedIngredients);
+  if (currentUser.pantry.length > 0) {
+    recipeData.forEach(recipe => {
+      if (!currentUser.determineIngredientsAvailable(recipe)) {
+        domUpdates.hideRecipe(recipe);
+      }
+    })
   }
 }
 //We can improve the function below if we make it look for recipes that include only one checked item, so we can get multiple recipes that call for a specific ingredient.
-function findRecipesWithCheckedIngredients(selected) {
-  let recipeChecker = (arr, target) => target.every(v => arr.includes(v));
-  let ingredientNames = selected.map(item => {
-    return item.id;
-  })
-  recipes.forEach(recipe => {
-    let allRecipeIngredients = [];
-    recipe.ingredients.forEach(ingredient => {
-      allRecipeIngredients.push(ingredient.name);
-    });
-    if (!recipeChecker(allRecipeIngredients, ingredientNames)) {
-      domUpdates.hideUncheckedRecipe(recipe);
-    }
-  })
-}
+// function findRecipesWithCheckedIngredients() {
+//   let recipeChecker = (recipeIngredients, ingredientNames) => ingredientNames.every(ing => recipeIngredients.includes(ing));
+//   let ingredientNames = currentUser.pantry.map(ingredient => {
+//     return  ingredient.id;
+//   })
+//   recipes.forEach(recipe => {
+//     let allRecipeIngredients = [];
+//     recipe.ingredients.forEach(ingredient => {
+//       allRecipeIngredients.push(ingredient.name);
+//     });
+//     if (!recipeChecker(allRecipeIngredients, ingredientNames)) {
+//       domUpdates.hideUncheckedRecipe(recipe);
+//     }
+//   })
+// }
 
 function searchPantry() {
   const searchIngredientsInput = document.getElementById('search-ingredients-input');

@@ -145,7 +145,7 @@ let domUpdates = {
   //Pantry Display
   displayPantryInfo(pantry) {
     pantry.forEach(ingredient => {
-      let ingredientHtml = `<li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
+      let ingredientHtml = `<li class="pantry-ingredient" id="${ingredient.name}">
         <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>`;
       document.querySelector(".pantry-list").insertAdjacentHTML("beforeend",
         ingredientHtml);
@@ -211,7 +211,7 @@ let domUpdates = {
     return false;
   },
 
-  hideUncheckedRecipe(recipe) {
+  hideRecipe(recipe) {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "none";
   }
