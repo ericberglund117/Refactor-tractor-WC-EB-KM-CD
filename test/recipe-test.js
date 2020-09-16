@@ -150,6 +150,13 @@ describe('Recipe', function() {
       expect(recipe.filterAllRecipes(recipeInfo1, 'dinner')).to.equal(recipeInfo1);
     });
   });
+  /*   describe('filterAllRecipes', function() {
+      it('should be able to determine if a recipe includes a tag', function() {
+        expect(recipe.filterAllRecipes('starter')).to.equal(true);
+        expect(recipe.filterAllRecipes('brunch')).to.equal(false);
+      });
+    });
+*/
 
   describe('searchRecipes', function() {
     it('should be able to search recipes by ingredients', function() {

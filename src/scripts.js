@@ -1,4 +1,4 @@
-// ************ IMPORTED FILES ***************
+// ************ IMPORTED FILES *************** //
 import $ from 'jquery';
 import './css/base.scss';
 import './css/styles.scss';
@@ -11,7 +11,7 @@ import User from './user';
 import Recipe from './recipe';
 import domUpdates from './domUpdates';
 
-// ************ QUERY SELECTORS ***************
+// ************ QUERY SELECTORS *************** //
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector(".filter-btn");
 let main = document.querySelector("main");
@@ -20,16 +20,16 @@ let savedRecipesBtn = document.querySelector(".saved-recipes-btn");
 let searchBtn = document.querySelector(".search-btn");
 let searchForm = document.querySelector("#search");
 let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
-let modifyPantryBtn = document.querySelector(".modify-pantry-btn")
-let searchIngredientBtn = document.querySelector(".search-ingredients-btn")
+let modifyPantryBtn = document.querySelector(".modify-pantry-btn");
+let searchIngredientBtn = document.querySelector(".search-ingredients-btn");
 
-// ************ GLOBAL VARIABLES ***************
-
+// ************ GLOBAL VARIABLES *************** //
 let recipes = [];
 let currentUser;
 let ingredientsData;
 let recipeData;
 
+// ************ EVENT LISTENERS *************** //
 window.addEventListener("load", checkData);
 document.addEventListener('click', (e) => modifyIngredientCount(e));
 document.addEventListener('click', (e) => submitPantryChanges(e));
@@ -42,10 +42,9 @@ searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", determineCookableRecipes);
 searchForm.addEventListener("submit", pressEnterSearch);
 modifyPantryBtn.addEventListener("click", domUpdates.displayModifyPantryForm);
-searchIngredientBtn.addEventListener("click", createPostForm);
+searchIngredientBtn.addEventListener("click", createPantryModifyForm);
 
-
-//-----fetch request---------
+// ************ FETCH REQUESTS/MAIN DATA *************** //
 function checkData() {
   Promise.all([getUsers(), getIngredients(), getRecipes()])
     .then(data => loadPageInfo(data))
@@ -76,40 +75,60 @@ function getRecipes() {
 function loadPageInfo(allData) {
   let allUsersData = allData[0];
   ingredientsData = allData[1];
-  recipeData = allData[2];
-  currentUser = new User(allUsersData[Math.floor(Math.random()
-    * allUsersData.length)]);
+  recipeData = instantiateRecipes(allData[2]);
+  currentUser = new User(allUsersData[Math.floor(Math.random() * allUsersData.length)]);
   domUpdates.welcomeUser(currentUser);
   findPantryInfo(ingredientsData);
-  findTags(recipeData);
-  createCards(recipeData);
+  createRecipeTypeList(recipeData);
+  createRecipeCards(recipeData);
 }
 
-// CREATE RECIPE CARDS
-function createCards(recipeData) {
+function updatePantryIngredients(ingredID, ingredMod) {
+  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "userID": currentUser.id,
+      "ingredientID": +ingredID,
+      "ingredientModification": +ingredMod
+    })
+  })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+}
+
+// ************ RECIPES *************** //
+function instantiateRecipes(recipes) {
+  recipes = recipes.map(recipe => new Recipe(recipe));
+  return recipes
+}
+
+function createRecipeCards(recipeData) {
   recipeData.forEach(recipe => {
-    let recipeInfo = new Recipe(recipe);
-    let shortRecipeName = recipeInfo.name;
-    recipes.push(recipeInfo);
-    if (recipeInfo.name.length > 40) {
-      shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
+    let shortRecipeName = recipe.name;
+    recipes.push(recipe);
+    if (recipe.name.length > 40) {
+      shortRecipeName = recipe.name.substring(0, 40) + "...";
     }
-    domUpdates.displayCard(recipeInfo, shortRecipeName)
+    domUpdates.displayRecipeCard(recipe, shortRecipeName);
   });
 }
 
-// FILTER BY RECIPE TAGS
-function findTags(recipeData) {
-  let tags = [];
+// *** Recipe Type *** //
+function createRecipeTypeList(recipeData) {
+  let recipeTypeList = [];
   recipeData.forEach(recipe => {
     recipe.tags.forEach(tag => {
-      if (!tags.includes(tag)) {
-        tags.push(tag);
+      if (!recipeTypeList.includes(tag)) {
+        recipeTypeList.push(tag);
       }
     });
   });
-  tags.sort();
-  domUpdates.listTags(tags);
+  recipeTypeList.sort();
+  domUpdates.displayRecipeTags(recipeTypeList);
 }
 
 function findCheckedBoxes() {
@@ -117,49 +136,50 @@ function findCheckedBoxes() {
   let checkboxInfo = Array.from(tagCheckboxes)
   let selectedTags = checkboxInfo.filter(box => {
     return box.checked;
-  })
+  });
   findTaggedRecipes(selectedTags);
 }
 
-function findTaggedRecipes(selected) {
-  let filteredResults = [];
-  selected.forEach(tag => {
+function findTaggedRecipes(selectedTags) {
+  let taggedRecipes = [];
+  selectedTags.forEach(tag => {
     let allRecipes = recipes.filter(recipe => {
       return recipe.tags.includes(tag.id);
+      // return recipe.filterAllRecipes()
     });
     allRecipes.forEach(recipe => {
-      if (!filteredResults.includes(recipe)) {
-        filteredResults.push(recipe);
+      if (!taggedRecipes.includes(recipe)) {
+        taggedRecipes.push(recipe);
       }
-    })
+    });
   });
-  domUpdates.showAllRecipes(recipeData);
-  if (filteredResults.length > 0) {
-    filterRecipes(filteredResults);
+  domUpdates.displayAllRecipes(recipeData);
+  if (taggedRecipes.length > 0) {
+    filterRecipes(taggedRecipes);
   }
 }
 
-function filterRecipes(filtered) {
+function filterRecipes(taggedRecipes) {
   let foundRecipes = recipes.filter(recipe => {
-    return !filtered.includes(recipe);
+    return !taggedRecipes.includes(recipe);
   });
   domUpdates.hideUnselectedRecipes(foundRecipes)
 }
 
-// FAVORITE RECIPE FUNCTIONALITY
+// *** Favorite Recipes *** //
 function addToFavorites(event) {
   domUpdates.addToMyRecipes(event, currentUser, recipeData, ingredientsData);
 }
 
 function getSavedRecipes() {
-  domUpdates.showSavedRecipes(recipeData, currentUser);
+  domUpdates.displaySavedRecipes(recipeData, currentUser);
 }
 
 function showRecipes() {
-  domUpdates.showAllRecipes(recipeData);
+  domUpdates.displayAllRecipes(recipeData);
 }
 
-// SEARCH RECIPES
+// *** Search Recipes *** //
 function pressEnterSearch(event) {
   event.preventDefault();
   searchRecipes();
@@ -167,30 +187,26 @@ function pressEnterSearch(event) {
 
 function searchRecipes() {
   let searchInput = document.querySelector("#search-input");
-  domUpdates.showAllRecipes(recipeData);
+  domUpdates.displayAllRecipes(recipeData);
   let searchedRecipes = recipeData.filter(recipe => {
     return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase().trim());
   });
-  filterNonSearched(createRecipeObject(searchedRecipes));
+  filterNonSearched(searchedRecipes);
 }
 
 function filterNonSearched(filtered) {
   let found = recipes.filter(recipe => {
     let ids = filtered.map(f => f.id);
     return !ids.includes(recipe.id)
-  })
+  });
   domUpdates.hideUnselectedRecipes(found);
 }
 
-function createRecipeObject(recipes) {
-  recipes = recipes.map(recipe => new Recipe(recipe));
-  return recipes
-}
 
-// CREATE AND USE PANTRY
-
+// ************ PANTRY *************** //
 function findPantryInfo(ingredientsData) {
-  let pantryInfo = []
+  let pantryInfo = [];
+  // LINTER : PANTRY MATCH IS ASSIGNED A VALUE, BUT NEVER USED
   let pantryMatch = currentUser.pantry.map(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
@@ -209,14 +225,23 @@ function findPantryInfo(ingredientsData) {
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
 }
 
+// *** Compare Pantry *** //
 function determineCookableRecipes() {
-  domUpdates.showAllRecipes(recipeData);
+  domUpdates.displayAllRecipes(recipeData);
   if (currentUser.pantry.length > 0) {
     recipeData.forEach(recipe => {
       if (!currentUser.determineIngredientsAvailable(recipe)) {
         domUpdates.hideRecipe(recipe);
       }
-    })
+    });
+  }
+}
+
+// *** Modify Pantry *** //
+function createPantryModifyForm(event) {
+  if (event.target && event.target.classList.contains('search-ingredients-btn')) {
+    let ingredients = searchPantry();
+    domUpdates.displaySearchedIngredients(ingredients);
   }
 }
 
@@ -224,13 +249,6 @@ function searchPantry() {
   const searchIngredientsInput = document.getElementById('search-ingredients-input');
   const search = searchIngredientsInput.value.toLowerCase();
   return ingredientsData.filter(ingred => ingred.name).filter(ingred => ingred.name.includes(search));
-}
-
-function createPostForm(event) {
-  if (event.target && event.target.classList.contains('search-ingredients-btn')) {
-    let ingredients = searchPantry();
-    domUpdates.displaySearchedIngredients(ingredients);
-  }
 }
 
 function modifyIngredientCount(event) {
@@ -251,32 +269,14 @@ function submitPantryChanges(event) {
         let ingredMod = +amount.value;
         if (ingredMod !== 0) {
           currentUser.updateCurrentUserPantry(ingredID, ingredMod);
-          console.log(currentUser.pantry);
           updatePantryIngredients(ingredID, ingredMod)
-          if(currentUser.pantry.includes(ingredID)) {
+          if (currentUser.pantry.includes(ingredID)) {
             updatePantryIngredients(ingredID, ingredMod)
           }
         }
       }
-    })
+    });
     domUpdates.hideModifyPantryForm();
     findPantryInfo(ingredientsData)
   }
-}
-
-function updatePantryIngredients(ingredID, ingredMod) {
-  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "userID": currentUser.id,
-      "ingredientID": +ingredID,
-      "ingredientModification": +ingredMod
-    })
-  })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.log(error))
 }
