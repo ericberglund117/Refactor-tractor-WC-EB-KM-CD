@@ -195,9 +195,9 @@ let domUpdates = {
     while (node !== null) {
       if (node === parent) {
         return true;
-      };
+      }
       node = node.parentNode;
-    };
+    }
     return false;
   },
 
@@ -218,7 +218,7 @@ let domUpdates = {
       menuDropdown.style.display = "block";
     } else {
       menuDropdown.style.display = "none";
-    };
+    }
   }
 };
 
