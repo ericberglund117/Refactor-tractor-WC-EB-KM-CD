@@ -144,17 +144,25 @@ let domUpdates = {
 
   //Pantry Display
   displayPantryInfo(pantry) {
-    pantry.forEach(ingredient => {
-      let ingredientHtml = `<li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
-        <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>`;
-      document.querySelector(".pantry-list").insertAdjacentHTML("beforeend",
-        ingredientHtml);
-    });
+      let pantryList = document.querySelector(".pantry-list")
+      pantryList.innerHTML = ''
+      pantry.forEach(ingredient => {
+        let ingredientHtml = `<li class="pantry-ingredient" id="${ingredient.name}">
+          <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>`;
+      pantryList.innerHTML += ingredientHtml
+      });
+    },
+
+    displayModifyPantryForm() {
+     document.getElementById('post-to-pantry').style.display = 'flex';
+     let amounts = Array.from(document.querySelectorAll('.amount'));
+     amounts.forEach(amount => amount.value = 0)
+   },
+
+  hideModifyPantryForm() {
+    document.getElementById('post-to-pantry').style.display = 'none';
   },
 
-  displayModifyPantryForm() {
-    document.getElementById('post-to-pantry').style.display = 'flex';
-  },
 
   displaySearchedIngredients(ingredients) {
     let results = document.getElementById('searched-ingredient-results');
@@ -211,7 +219,7 @@ let domUpdates = {
     return false;
   },
 
-  hideUncheckedRecipe(recipe) {
+  hideRecipe(recipe) {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "none";
   }

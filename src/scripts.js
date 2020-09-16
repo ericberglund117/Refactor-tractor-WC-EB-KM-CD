@@ -25,7 +25,6 @@ let searchIngredientBtn = document.querySelector(".search-ingredients-btn")
 
 // ************ GLOBAL VARIABLES ***************
 
-let pantryInfo = [];
 let recipes = [];
 let currentUser;
 let ingredientsData;
@@ -40,7 +39,7 @@ main.addEventListener("click", addToFavorites);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", getSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
-showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
+showPantryRecipes.addEventListener("click", determineCookableRecipes);
 searchForm.addEventListener("submit", pressEnterSearch);
 modifyPantryBtn.addEventListener("click", domUpdates.displayModifyPantryForm);
 searchIngredientBtn.addEventListener("click", createPostForm);
@@ -161,7 +160,6 @@ function showRecipes() {
 }
 
 // SEARCH RECIPES
-// The function below needs to be used for function that handles the ingredient search window
 function pressEnterSearch(event) {
   event.preventDefault();
   searchRecipes();
@@ -171,7 +169,7 @@ function searchRecipes() {
   let searchInput = document.querySelector("#search-input");
   domUpdates.showAllRecipes(recipeData);
   let searchedRecipes = recipeData.filter(recipe => {
-    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
+    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase().trim());
   });
   filterNonSearched(createRecipeObject(searchedRecipes));
 }
@@ -190,7 +188,9 @@ function createRecipeObject(recipes) {
 }
 
 // CREATE AND USE PANTRY
+
 function findPantryInfo(ingredientsData) {
+  let pantryInfo = []
   let pantryMatch = currentUser.pantry.map(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
@@ -209,32 +209,15 @@ function findPantryInfo(ingredientsData) {
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
 }
 
-function findCheckedPantryBoxes() {
-  let pantryCheckboxes = document.querySelectorAll(".pantry-checkbox");
-  let pantryCheckboxInfo = Array.from(pantryCheckboxes)
-  let selectedIngredients = pantryCheckboxInfo.filter(box => {
-    return box.checked;
-  })
+function determineCookableRecipes() {
   domUpdates.showAllRecipes(recipeData);
-  if (selectedIngredients.length > 0) {
-    findRecipesWithCheckedIngredients(selectedIngredients);
+  if (currentUser.pantry.length > 0) {
+    recipeData.forEach(recipe => {
+      if (!currentUser.determineIngredientsAvailable(recipe)) {
+        domUpdates.hideRecipe(recipe);
+      }
+    })
   }
-}
-//We can improve the function below if we make it look for recipes that include only one checked item, so we can get multiple recipes that call for a specific ingredient.
-function findRecipesWithCheckedIngredients(selected) {
-  let recipeChecker = (arr, target) => target.every(v => arr.includes(v));
-  let ingredientNames = selected.map(item => {
-    return item.id;
-  })
-  recipes.forEach(recipe => {
-    let allRecipeIngredients = [];
-    recipe.ingredients.forEach(ingredient => {
-      allRecipeIngredients.push(ingredient.name);
-    });
-    if (!recipeChecker(allRecipeIngredients, ingredientNames)) {
-      domUpdates.hideUncheckedRecipe(recipe);
-    }
-  })
 }
 
 function searchPantry() {
@@ -264,14 +247,20 @@ function submitPantryChanges(event) {
     let amounts = Array.from(document.querySelectorAll('.amount'));
     amounts.forEach(amount => {
       if (amount.value && amount.value !== 0) {
-        let ingredID = amount.parentNode.parentNode.id;
-        let ingredMod = amount.value;
-        if (ingredMod > 0 || ingredMod < 0) {
+        let ingredID = +amount.parentNode.parentNode.id;
+        let ingredMod = +amount.value;
+        if (ingredMod !== 0) {
           currentUser.updateCurrentUserPantry(ingredID, ingredMod);
+          console.log(currentUser.pantry);
           updatePantryIngredients(ingredID, ingredMod)
+          if(currentUser.pantry.includes(ingredID)) {
+            updatePantryIngredients(ingredID, ingredMod)
+          }
         }
       }
     })
+    domUpdates.hideModifyPantryForm();
+    findPantryInfo(ingredientsData)
   }
 }
 
