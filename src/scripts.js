@@ -160,7 +160,6 @@ function showRecipes() {
 }
 
 // SEARCH RECIPES
-// The function below needs to be used for function that handles the ingredient search window
 function pressEnterSearch(event) {
   event.preventDefault();
   searchRecipes();
@@ -170,7 +169,7 @@ function searchRecipes() {
   let searchInput = document.querySelector("#search-input");
   domUpdates.showAllRecipes(recipeData);
   let searchedRecipes = recipeData.filter(recipe => {
-    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
+    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase().trim());
   });
   filterNonSearched(createRecipeObject(searchedRecipes));
 }
