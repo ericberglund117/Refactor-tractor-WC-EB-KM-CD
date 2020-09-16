@@ -144,8 +144,7 @@ function findTaggedRecipes(selectedTags) {
   let taggedRecipes = [];
   selectedTags.forEach(tag => {
     let allRecipes = recipes.filter(recipe => {
-      return recipe.tags.includes(tag.id);
-      // return recipe.filterAllRecipes()
+      return recipe.determineRecipeTag(tag.id)
     });
     allRecipes.forEach(recipe => {
       if (!taggedRecipes.includes(recipe)) {
