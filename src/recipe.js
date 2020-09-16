@@ -22,18 +22,13 @@ class Recipe {
     return totalCost;
   }
 
-  filterAllRecipes(recipe, tag) {
-    if (recipe.tags.includes(tag)) {
-      return recipe
+  determineRecipeTag(tag) {
+    if (this.tags.includes(tag)) {
+      return true
+    } else {
+      return false
     }
   }
-  /* filterAllRecipes(tag) {
-  if (this.tags.includes(tag)) {
-  return true
-} else {
-return false
-}
-} */
 
   searchRecipes(recipe, ingredient) {
     let ingredientsValues = Object.values(recipe.ingredients)

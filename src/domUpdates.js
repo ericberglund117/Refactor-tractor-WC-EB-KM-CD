@@ -66,23 +66,6 @@ let domUpdates = {
     fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
   },
 
-  addToMyRecipes(event, currentUser, recipeData, ingredientsData) {
-    if (event.target.className === "card-apple-icon") {
-      let cardId = parseInt(event.target.closest(".recipe-card").id)
-      if (!currentUser.favoriteRecipes.includes(cardId)) {
-        event.target.src = "./images/apple-logo.png";
-        currentUser.saveRecipe(cardId);
-      } else {
-        event.target.src = "./images/apple-logo-outline.png";
-        currentUser.removeRecipe(cardId);
-      }
-    } else if (event.target.id === "exit-recipe-btn") {
-      this.exitRecipe();
-    } else if (this.isDescendant(event.target.closest(".recipe-card"), event.target)) {
-      this.openRecipeInfo(event, recipeData, ingredientsData);
-    }
-  },
-
   displayRecipeTitle(recipe, ingredients, fullRecipeInfo) {
     let recipeTitle = `
     <button id="exit-recipe-btn">X</button>
