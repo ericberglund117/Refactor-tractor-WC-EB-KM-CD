@@ -9,6 +9,7 @@ class Recipe {
     this.image = recipe.image;
     this.tags = recipe.tags;
     this.ingredients = recipe.ingredients;
+    this.instructions = recipe.instructions;
   }
 
   calculateIngredientsCost(ingredientsData) {
@@ -30,6 +31,13 @@ class Recipe {
       return recipe
     }
   }
+  /* filterAllRecipes(tag) {
+  if (this.tags.includes(tag)) {
+  return true
+} else {
+return false
+}
+} */
 
   searchRecipes(recipe, ingredient) {
     let ingredientsValues = Object.values(recipe.ingredients)
