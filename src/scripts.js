@@ -42,9 +42,9 @@ searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", determineCookableRecipes);
 searchForm.addEventListener("submit", pressEnterSearch);
 modifyPantryBtn.addEventListener("click", domUpdates.displayModifyPantryForm);
-searchIngredientBtn.addEventListener("click", createPostForm);
+searchIngredientBtn.addEventListener("click", createPantryModifyForm);
 
-// ************ FETCH REQUESTS *************** //
+// ************ FETCH REQUESTS/MAIN DATA *************** //
 function checkData() {
   Promise.all([getUsers(), getIngredients(), getRecipes()])
     .then(data => loadPageInfo(data))
@@ -75,12 +75,12 @@ function getRecipes() {
 function loadPageInfo(allData) {
   let allUsersData = allData[0];
   ingredientsData = allData[1];
-  recipeData = allData[2];
+  recipeData = instantiateRecipes(allData[2]);
   currentUser = new User(allUsersData[Math.floor(Math.random() * allUsersData.length)]);
   domUpdates.welcomeUser(currentUser);
   findPantryInfo(ingredientsData);
   createRecipeTypeList(recipeData);
-  createCards(recipeData);
+  createRecipeCards(recipeData);
 };
 
 function updatePantryIngredients(ingredID, ingredMod) {
@@ -101,22 +101,21 @@ function updatePantryIngredients(ingredID, ingredMod) {
 };
 
 // ************ RECIPES *************** //
-function createRecipeObject(recipes) {
+function instantiateRecipes(recipes) {
   recipes = recipes.map(recipe => new Recipe(recipe));
   return recipes
-}
+};
 
-function createCards(recipeData) {
+function createRecipeCards(recipeData) {
   recipeData.forEach(recipe => {
-    let recipeInfo = new Recipe(recipe);
-    let shortRecipeName = recipeInfo.name;
-    recipes.push(recipeInfo);
-    if (recipeInfo.name.length > 40) {
-      shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
+    let shortRecipeName = recipe.name;
+    recipes.push(recipe);
+    if (recipe.name.length > 40) {
+      shortRecipeName = recipe.name.substring(0, 40) + "...";
     }
-    domUpdates.displayCard(recipeInfo, shortRecipeName);
+    domUpdates.displayRecipeCard(recipe, shortRecipeName);
   });
-}
+};
 
 // *** Recipe Type *** //
 function createRecipeTypeList(recipeData) {
@@ -137,75 +136,77 @@ function findCheckedBoxes() {
   let checkboxInfo = Array.from(tagCheckboxes)
   let selectedTags = checkboxInfo.filter(box => {
     return box.checked;
-  })
+  });
   findTaggedRecipes(selectedTags);
-}
+};
 
-function findTaggedRecipes(selected) {
-  let filteredResults = [];
-  selected.forEach(tag => {
+function findTaggedRecipes(selectedTags) {
+  let taggedRecipes = [];
+  selectedTags.forEach(tag => {
     let allRecipes = recipes.filter(recipe => {
       return recipe.tags.includes(tag.id);
+      // return recipe.filterAllRecipes()
     });
     allRecipes.forEach(recipe => {
-      if (!filteredResults.includes(recipe)) {
-        filteredResults.push(recipe);
-      }
-    })
+      if (!taggedRecipes.includes(recipe)) {
+        taggedRecipes.push(recipe);
+      };
+    });
   });
-  domUpdates.showAllRecipes(recipeData);
-  if (filteredResults.length > 0) {
-    filterRecipes(filteredResults);
-  }
-}
+  domUpdates.displayAllRecipes(recipeData);
+  if (taggedRecipes.length > 0) {
+    filterRecipes(taggedRecipes);
+  };
+};
 
-function filterRecipes(filtered) {
+function filterRecipes(taggedRecipes) {
   let foundRecipes = recipes.filter(recipe => {
-    return !filtered.includes(recipe);
+    return !taggedRecipes.includes(recipe);
+    console.log(foundRecipes);
   });
   domUpdates.hideUnselectedRecipes(foundRecipes)
-}
+};
 
 // *** Favorite Recipes *** //
 function addToFavorites(event) {
   domUpdates.addToMyRecipes(event, currentUser, recipeData, ingredientsData);
-}
+};
 
 function getSavedRecipes() {
-  domUpdates.showSavedRecipes(recipeData, currentUser);
-}
+  domUpdates.displaySavedRecipes(recipeData, currentUser);
+};
 
 function showRecipes() {
-  domUpdates.showAllRecipes(recipeData);
-}
+  domUpdates.displayAllRecipes(recipeData);
+};
 
 // *** Search Recipes *** //
 function pressEnterSearch(event) {
   event.preventDefault();
   searchRecipes();
-}
+};
 
 function searchRecipes() {
   let searchInput = document.querySelector("#search-input");
-  domUpdates.showAllRecipes(recipeData);
+  domUpdates.displayAllRecipes(recipeData);
   let searchedRecipes = recipeData.filter(recipe => {
     return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase().trim());
   });
-  filterNonSearched(createRecipeObject(searchedRecipes));
-}
+  filterNonSearched(searchedRecipes);
+};
 
 function filterNonSearched(filtered) {
   let found = recipes.filter(recipe => {
     let ids = filtered.map(f => f.id);
     return !ids.includes(recipe.id)
-  })
+  });
   domUpdates.hideUnselectedRecipes(found);
-}
+};
 
 
 // ************ PANTRY *************** //
 function findPantryInfo(ingredientsData) {
-  let pantryInfo = []
+  let pantryInfo = [];
   let pantryMatch = currentUser.pantry.map(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
@@ -213,51 +214,51 @@ function findPantryInfo(ingredientsData) {
     let originalIngredient = pantryInfo.find(ingredient => {
       if (itemInfo) {
         return ingredient.name === itemInfo.name;
-      }
+      };
     });
     if (itemInfo && originalIngredient) {
       originalIngredient.count += item.amount;
     } else if (itemInfo) {
       pantryInfo.push({name: itemInfo.name, count: item.amount});
-    }
+    };
   });
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
-}
+};
 
 // *** Compare Pantry *** //
 function determineCookableRecipes() {
-  domUpdates.showAllRecipes(recipeData);
+  domUpdates.displayAllRecipes(recipeData);
   if (currentUser.pantry.length > 0) {
     recipeData.forEach(recipe => {
       if (!currentUser.determineIngredientsAvailable(recipe)) {
         domUpdates.hideRecipe(recipe);
-      }
-    })
-  }
-}
+      };
+    });
+  };
+};
 
 // *** Modify Pantry *** //
-function createPostForm(event) {
+function createPantryModifyForm(event) {
   if (event.target && event.target.classList.contains('search-ingredients-btn')) {
     let ingredients = searchPantry();
     domUpdates.displaySearchedIngredients(ingredients);
-  }
-}
+  };
+};
 
 function searchPantry() {
   const searchIngredientsInput = document.getElementById('search-ingredients-input');
   const search = searchIngredientsInput.value.toLowerCase();
   return ingredientsData.filter(ingred => ingred.name).filter(ingred => ingred.name.includes(search));
-}
+};
 
 function modifyIngredientCount(event) {
   if (event.target && event.target.id === 'minus') {
     domUpdates.subtractIngredientCount(event);
-  }
+  };
   if (event.target && event.target.id === 'plus') {
     domUpdates.addIngredientCount(event);
-  }
-}
+  };
+};
 
 function submitPantryChanges(event) {
   if (event.target && event.target.id === 'save-changes-btn') {
@@ -272,11 +273,11 @@ function submitPantryChanges(event) {
           updatePantryIngredients(ingredID, ingredMod)
           if (currentUser.pantry.includes(ingredID)) {
             updatePantryIngredients(ingredID, ingredMod)
-          }
-        }
-      }
-    })
+          };
+        };
+      };
+    });
     domUpdates.hideModifyPantryForm();
     findPantryInfo(ingredientsData)
-  }
-}
+  };
+};
