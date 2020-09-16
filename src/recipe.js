@@ -1,7 +1,3 @@
-// import ingredientsData from '../src/data/ingredient-Data.js'
-// import recipeData from '../src/data/recipe-Data.js'
-// import User from '../src/user';
-
 class Recipe {
   constructor(recipe) {
     this.id = recipe.id;
