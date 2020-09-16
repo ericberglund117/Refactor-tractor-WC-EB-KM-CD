@@ -35,7 +35,7 @@ document.addEventListener('click', (e) => modifyIngredientCount(e));
 document.addEventListener('click', (e) => submitPantryChanges(e));
 allRecipesBtn.addEventListener("click", showRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
-main.addEventListener("click", addToFavorites);
+main.addEventListener("click", determineRecipeCardStatus);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", getSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
@@ -166,8 +166,21 @@ function filterRecipes(taggedRecipes) {
 }
 
 // *** Favorite Recipes *** //
-function addToFavorites(event) {
-  domUpdates.addToMyRecipes(event, currentUser, recipeData, ingredientsData);
+function determineRecipeCardStatus(event) {
+  if (event.target.className === "card-apple-icon") {
+    let cardId = parseInt(event.target.closest(".recipe-card").id)
+    if (!currentUser.favoriteRecipes.includes(cardId)) {
+      event.target.src = "./images/apple-logo.png";
+      currentUser.saveRecipe(cardId);
+    } else {
+      event.target.src = "./images/apple-logo-outline.png";
+      currentUser.removeRecipe(cardId);
+    }
+  } else if (event.target.id === "exit-recipe-btn") {
+    domUpdates.exitRecipe();
+  } else if (domUpdates.isDescendant(event.target.closest(".recipe-card"), event.target)) {
+    domUpdates.openRecipeInfo(event, recipeData, ingredientsData);
+  }
 }
 
 function getSavedRecipes() {
@@ -205,7 +218,6 @@ function filterNonSearched(filtered) {
 // ************ PANTRY *************** //
 function findPantryInfo(ingredientsData) {
   let pantryInfo = [];
-  // LINTER : PANTRY MATCH IS ASSIGNED A VALUE, BUT NEVER USED
   let pantryMatch = currentUser.pantry.map(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
